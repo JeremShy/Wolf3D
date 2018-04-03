@@ -1,8 +1,14 @@
-SRC_NAME = main.c
+SRC_NAME = main.c \
+			mlx_general_func.c \
+			utils.c \
+			mlx_img_func.c \
+			mlx_loop_hook.c \
+			mlx_key_hook.c \
+			misc_hooks.c
 
 OBJ_PATH = ./obj/
 
-INC_PATH = ./include ./libsrcs/libft/includes/ ./libsrcs/minilibx
+INC_PATH = ./includes ./libsrcs/libft/includes/ ./libsrcs/minilibx ./libsrcs/ft_printf/includes
 
 SRC_PATH = ./srcs/
 
@@ -10,7 +16,7 @@ NAME = wolf3d
 
 CC = gcc
 CFLAGS =  -Wextra -Wall -g
-LFLAGS = -lft -framework OpenGL -framework AppKit -lm -lmlx
+LFLAGS = -lft -framework OpenGL -framework AppKit -lm -lmlx -lftprintf
 LIB_DIR = ./lib/
 
 OBJ_NAME = $(SRC_NAME:.c=.o)
@@ -31,7 +37,11 @@ $(LIB_DIR)libft.a:
 	@mkdir -p $(LIB_DIR)
 	@make -C libsrcs/libft
 
-$(NAME) : $(LIB_DIR)libmlx.a $(LIB_DIR)libft.a $(OBJ)
+$(LIB_DIR)libftprintf.a:
+	@mkdir -p $(LIB_DIR)
+	@make -C libsrcs/ft_printf
+
+$(NAME) : $(LIB_DIR)libmlx.a $(LIB_DIR)libft.a $(LIB_DIR)libftprintf.a $(OBJ)
 	$(CC) $(CFLAGS) $(OBJ) -L $(LIB_DIR) $(LFLAGS) -o $@ 
 
 $(OBJ_PATH)%.o: $(SRC_PATH)%.c
@@ -43,11 +53,13 @@ clean:
 	@rmdir -p $(OBJ_PATH) 2> /dev/null || true
 	@make -C libsrcs/libft clean
 	@make -C libsrcs/minilibx clean
+	@make -C libsrcs/ft_printf clean
 
 fclean: clean
 	@rm -fv $(NAME)
 	@make -C libsrcs/libft fclean
 	@make -C libsrcs/minilibx fclean
+	@make -C libsrcs/ft_printf fclean
 
 re: fclean all
 
