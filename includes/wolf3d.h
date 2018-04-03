@@ -8,14 +8,19 @@
 # define WIN_SIZE 840
 
 typedef struct	s_data {
-	void	*mlx;
-	void	*win;
-	void	*img;
-	char	*addr;
+	void		*mlx;
+	void		*win;
+	void		*img;
+	char		*addr;
+	const char	*av;
 
-	int		size_line;
-	int		endian;
-	int		bpp;
+	int			size_line;
+	int			endian;
+	int			bpp;
+
+	int8_t		**map;
+	int			size_x;
+	int			size_y;
 }				t_data;
 
 int		init_the_mlx(t_data *data);
@@ -31,5 +36,7 @@ void	fill_image(t_data *data, int color);
 int		loop_hook(void *data_void);
 int		key_hook(void *data_void);
 int		red_cross_hook(void *data);
+
+int8_t	parse(t_data *data, const char *file);
 
 #endif

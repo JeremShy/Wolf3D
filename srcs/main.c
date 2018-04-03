@@ -1,10 +1,21 @@
 #include <wolf3d.h>
 
-int main()
+int main(int ac, char **av)
 {
 	t_data	data;
 
+	if (ac != 2)
+	{
+		ft_printf("%s: usage: %s map\n", av[0], av[0]);
+		return (1);
+	}
 	ft_bzero(&data, sizeof(data));
+	data.av = av[0];
+	if (!parse(&data, av[1]))
+	{
+		ft_printf("%s: parse error\n", av[0]);
+		return (2);
+	}
 	if (!init_the_mlx(&data))
 		return (0);
 	clear_image(&data);
