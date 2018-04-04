@@ -112,6 +112,7 @@ int8_t			parse(t_data *data, const char *file)
 		close(fd);
 		return (0);		
 	}
+	//TODO : Recuperer les lignes une a une pour les stocker.
 	close(fd);
 	return (1);
 }
