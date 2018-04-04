@@ -8,7 +8,7 @@ static int8_t	validate_line(char *str, int size_x)
 	i = 0;
 	while ((size_x < 0 || i < size_x) && str[i])
 	{
-		if (!ft_isdigit(str[i]) && str[i] != ' ')
+		if (!ft_isdigit(str[i]))
 			return (0);
 		i++;
 	}
@@ -18,20 +18,14 @@ static int8_t	validate_line(char *str, int size_x)
 static int8_t	get_size_x(t_data *data, char *str)
 {
 	int	i;
-	int	x;
 
 	if	(!validate_line(str, -1))
 		return (0);
 	i = 0;
-	x = 0;
 	while (str[i])
-	{
-		if (ft_isdigit(str[i]))
-			x++;
 		i++;
-	}
-	printf("X size : %d\n", x);
-	data->size_x = x;
+	printf("X size : %d\n", i);
+	data->size_x = i;
 	return (1);
 }
 
@@ -83,11 +77,30 @@ static int8_t	allocate_map(t_data *data)
 	return (1);
 }
 
+static int8_t	parse_line(t_data *data, int line_number, char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (i >= data->size_x)
+			return (0);
+		else if (ft_isdigit(str[i]))
+			data->map[line_number][i] = str[i];
+		else
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
 int8_t			parse(t_data *data, const char *file)
 {
 	int		fd;
 	char	*str;
 	int		r;
+	int		i;
 
 	if ((fd = open(file, O_RDONLY)) == -1)
 	{
@@ -108,9 +121,19 @@ int8_t			parse(t_data *data, const char *file)
 	if (!allocate_map(data))
 	{
 		printf("%s: couldn't allocate map\n", data->av);
-		return return_close_free(str, fd, 0);
+		return (return_close_free(str, fd, 0));
 	}
 	//TODO : Recuperer les lignes une a une pour les stocker.
+	if (!parse_line(data, 0, str))
+		return (return_close_free(str, fd, 0));
+	free(str);
+	i = 1;
+	while (get_next_line(fd, &str) > 0)
+	{
+		parse_line(data, i, str);
+		i++;
+		free(str);
+	}
 	close(fd);
 	return (1);
 }

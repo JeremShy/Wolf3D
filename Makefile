@@ -5,7 +5,8 @@ SRC_NAME = main.c \
 			mlx_loop_hook.c \
 			mlx_key_hook.c \
 			misc_hooks.c \
-			parse.c
+			parse.c \
+			debug.c
 
 OBJ_PATH = ./obj/
 

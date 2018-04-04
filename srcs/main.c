@@ -16,6 +16,7 @@ int main(int ac, char **av)
 		ft_printf("%s: parse error\n", av[0]);
 		return (2);
 	}
+	print_map(&data);
 	if (!init_the_mlx(&data))
 		return (0);
 	clear_image(&data);

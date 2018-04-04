@@ -39,4 +39,6 @@ int		red_cross_hook(void *data);
 
 int8_t	parse(t_data *data, const char *file);
 
+void	print_map(t_data *data);
+
 #endif
