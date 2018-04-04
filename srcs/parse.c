@@ -35,6 +35,14 @@ static int8_t	get_size_x(t_data *data, char *str)
 	return (1);
 }
 
+static int8_t	return_close_free(char *str, int fd, int ret)
+{
+	if (str)
+		free(str);
+	close(fd);
+	return (ret);
+}
+
 static int		get_size_y(const char *file)
 {
 	int		i;
@@ -49,7 +57,6 @@ static int		get_size_y(const char *file)
 	}
 	while (get_next_line(fd, &str) > 0)
 	{
-		printf("str : %s\n", str);
 		free(str);
 		i++;
 	}
@@ -92,25 +99,16 @@ int8_t			parse(t_data *data, const char *file)
 	data->size_y = r;
 	r = get_next_line(fd, &str);
 	if (r == 0 || r == -1)
-	{
-		if (r == 0)
-			free(str);
-		close(fd);
-		return (0);
-	}
+		return return_close_free(NULL, fd, 0);
 	if (!get_size_x(data, str))
 	{
 		printf("%s: invalid first line\n", data->av);
-		free(str);
-		close(fd);
-		return (0);
+		return return_close_free(str, fd, 0);
 	}
 	if (!allocate_map(data))
 	{
 		printf("%s: couldn't allocate map\n", data->av);
-		free(str);
-		close(fd);
-		return (0);		
+		return return_close_free(str, fd, 0);
 	}
 	//TODO : Recuperer les lignes une a une pour les stocker.
 	close(fd);

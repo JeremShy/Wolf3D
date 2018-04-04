@@ -34,7 +34,7 @@ void	clear_image(t_data *data);
 void	fill_image(t_data *data, int color);
 
 int		loop_hook(void *data_void);
-int		key_hook(void *data_void);
+int		key_hook(int keycode, void *data_void);
 int		red_cross_hook(void *data);
 
 int8_t	parse(t_data *data, const char *file);
