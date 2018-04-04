@@ -17,6 +17,7 @@ int main(int ac, char **av)
 		return (2);
 	}
 	print_map(&data);
+	ft_printf("size x : %d, size y : %d\n", data.size_x, data.size_y);
 	if (!init_the_mlx(&data))
 		return (0);
 	clear_image(&data);

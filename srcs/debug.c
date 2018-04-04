@@ -6,10 +6,10 @@ void	print_map(t_data *data)
 	int	j;
 
 	i = 0;
-	while (i < data->size_x)
+	while (i < data->size_y)
 	{
 		j = 0;
-		while (j < data->size_y)
+		while (j < data->size_x)
 		{
 			ft_putchar(data->map[i][j]);
 			j++;

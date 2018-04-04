@@ -24,7 +24,6 @@ static int8_t	get_size_x(t_data *data, char *str)
 	i = 0;
 	while (str[i])
 		i++;
-	printf("X size : %d\n", i);
 	data->size_x = i;
 	return (1);
 }
@@ -54,7 +53,6 @@ static int		get_size_y(const char *file)
 		free(str);
 		i++;
 	}
-	ft_printf("max y : %d\n", i);
 	close(fd);
 	return (i);
 }
@@ -63,17 +61,16 @@ static int8_t	allocate_map(t_data *data)
 {
 	int	i;
 
-	if ((data->map = malloc(sizeof(char*) * (data->size_y + 1))) == NULL)
+	if ((data->map = malloc(sizeof(char*) * data->size_y)) == NULL)
 		return (0);
 	i = 0;
 	while (i < data->size_y)
 	{
-		data->map[i] = malloc(sizeof(char) * (data->size_x + 1));
+		data->map[i] = malloc(sizeof(char) * data->size_x);
 		if (data->map[i] == NULL)
 			return (0);
 		i++;
 	}
-	data->map[i] = NULL;
 	return (1);
 }
 
@@ -84,7 +81,7 @@ static int8_t	parse_line(t_data *data, int line_number, char *str)
 	i = 0;
 	while (str[i])
 	{
-		if (i >= data->size_x)
+		if (i == data->size_x)
 			return (0);
 		else if (ft_isdigit(str[i]))
 			data->map[line_number][i] = str[i];
@@ -92,6 +89,8 @@ static int8_t	parse_line(t_data *data, int line_number, char *str)
 			return (0);
 		i++;
 	}
+	if (i != data->size_x)
+		return (0);
 	return (1);
 }
 
@@ -123,14 +122,14 @@ int8_t			parse(t_data *data, const char *file)
 		printf("%s: couldn't allocate map\n", data->av);
 		return (return_close_free(str, fd, 0));
 	}
-	//TODO : Recuperer les lignes une a une pour les stocker.
 	if (!parse_line(data, 0, str))
 		return (return_close_free(str, fd, 0));
 	free(str);
 	i = 1;
 	while (get_next_line(fd, &str) > 0)
 	{
-		parse_line(data, i, str);
+		if (parse_line(data, i, str) == 0)
+			return (return_close_free(str, fd, 0));
 		i++;
 		free(str);
 	}
