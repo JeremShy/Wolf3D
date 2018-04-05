@@ -18,7 +18,7 @@ NAME = wolf3d
 
 CC = gcc
 CFLAGS =  -Wextra -Wall -g
-LFLAGS = -lft -framework OpenGL -framework AppKit -lm -lmlx -lftprintf
+LFLAGS = -lft -framework OpenGL -framework AppKit -lm -lmlx -lftprintf -lftmatrices
 LIB_DIR = ./lib/
 
 OBJ_NAME = $(SRC_NAME:.c=.o)
