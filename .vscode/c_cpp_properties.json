@@ -11,6 +11,7 @@
                 "/usr/include",
                 "${workspaceFolder}/libsrcs/libft/includes",
                 "${workspaceFolder}/libsrcs/ft_printf/includes",
+                "${workspaceFolder}/libsrcs/libftmatrices/includes",
                 "${workspaceFolder}/includes"
             ],
             "defines": [],
