@@ -7,7 +7,10 @@ int	key_press_hook(int keycode, void *data_void)
 	data = (t_data*)data_void;
 	ft_printf("Pressed key : %d\n", keycode);
 	if (keycode == 53)
+	{
+		free_dtab(data->map, data->size_y);
 		free_mlx_and_exit(data);
+	}
 	if (keycode == 13 || keycode == 126) // W
 		data->going_front = 1;
 	else if (keycode == 1 || keycode == 125) // S

@@ -48,6 +48,7 @@ int		init_the_mlx(t_data *data);
 void	free_mlx_and_exit(t_data *data);
 
 int		handle_error_void(void *variable, void *error_value, char *msg);
+void	free_dtab(int8_t **dtab, int size);
 
 int		get_color_code(int r, int v, int b);
 void	put_pixel_to_image(t_data *data, int color, int x, int y);
