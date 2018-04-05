@@ -25,12 +25,12 @@ typedef struct	s_data {
 	int			size_x;
 	int			size_y;
 
-	t_vec3		cam_pos;
-	t_vec3		cam_dir;
+	t_vec3		cam_pos;	// -1 <=> 1
+	t_vec3		cam_dir;	// Vers ou on est tourne
 	t_vec3		cam_plane;
 
-	double		w;
-	double		h;
+	double		w;			// En pixel
+	double		h;			// En pixel
 
 	int8_t		going_front;
 	int8_t		going_back;
