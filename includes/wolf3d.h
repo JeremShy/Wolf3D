@@ -4,7 +4,6 @@
 # include <libft.h>
 # include <mlx.h>
 # include <ft_printf.h>
-# include <libftmatrices.h>
 
 # define WIN_SIZE 840
 
