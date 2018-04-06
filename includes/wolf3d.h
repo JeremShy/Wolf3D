@@ -25,9 +25,10 @@ typedef struct	s_data {
 	int			size_x;
 	int			size_y;
 
-	t_vec3		cam_pos;	// -1 <=> 1
-	t_vec3		cam_dir;	// Vers ou on est tourne
-	t_vec3		cam_plane;
+	t_vec3		cam_pos;	// {0 <=> size_x, 0 <=> size_y}
+	t_vec3		cam_square;
+	t_vec3		cam_dir;	// -1 <=> 1  - Vers ou on est tourne
+	t_vec3		cam_plane;	// J'ai pas trop compris a quoi ca sert.
 
 	double		w;			// En pixel
 	double		h;			// En pixel
@@ -49,6 +50,7 @@ void	free_mlx_and_exit(t_data *data);
 
 int		handle_error_void(void *variable, void *error_value, char *msg);
 void	free_dtab(int8_t **dtab, int size);
+void	sync_map_squares(t_data *data);
 
 int		get_color_code(int r, int v, int b);
 void	put_pixel_to_image(t_data *data, int color, int x, int y);

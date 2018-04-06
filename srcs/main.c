@@ -25,6 +25,8 @@ int main(int ac, char **av)
 
 	data.global_rotation_speed = 0.2;
 	ft_vec3_init(data.cam_pos, (double[]){22, 11.5, 0});
+	sync_map_squares(&data);
+
 	ft_vec3_init(data.cam_dir, (double[]){-1, 0, 0});
 	ft_vec3_init(data.cam_plane, (double[]){0, 1, 0});
 	data.w = WIN_SIZE;
