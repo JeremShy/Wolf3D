@@ -43,6 +43,12 @@ typedef struct	s_data {
 	double		actual_rotation_speed;
 
 	int8_t		must_refresh;
+
+	t_vec3		actual_ray_dir;
+	t_vec3		actual_ray_pos;
+	t_vec3		actual_delta_dist;
+	t_vec3		actual_step;
+	t_vec3		actual_side_dist;
 }				t_data;
 
 int		init_the_mlx(t_data *data);

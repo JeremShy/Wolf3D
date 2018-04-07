@@ -18,20 +18,66 @@ static void	get_ray(t_data *data, t_vec3 ray_pos, t_vec3 ray_dir, double x)
 			data->cam_dir[1] + data->cam_plane[1] * col_pos, 0});
 }
 
-static void	init_step_from_ray(t_data *data, t_vec3 ray_dir, t_vec3 step, t_vec3)
+static void	init_step_and_side_dist(t_data *data, t_vec3 step, t_vec3 side_dist)
 {
-	if (ray_dir[0] < 0) // Rayon vers la gauche
+	if (data->actual_ray_dir[0] < 0) // Rayon vers la gauche
+	{
 		step[0] = -1;
+		side_dist[0] = (data->actual_ray_pos[0] - (int)data->actual_ray_pos[0]) * data->actual_delta_dist[0];
+	}
+	else
+	{
+		step[0] = 1;
+		side_dist[0] = ((int)data->actual_ray_pos + 1.0 - data->actual_ray_pos[0]) * data->actual_delta_dist[0];
+	}
+	if (data->actual_ray_dir[1] < 0) // Rayon vers la gauche
+	{
+		step[1] = -1;
+		side_dist[1] = (data->actual_ray_pos[1] - (int)data->actual_ray_pos[1]) * data->actual_delta_dist[1];
+	}
+	else
+	{
+		step[1] = 1;
+		side_dist[1] = ((int)data->actual_ray_pos + 1.0 - data->actual_ray_pos[1]) * data->actual_delta_dist[1];
+	}
 }
+
+
 
 static void	get_hit(t_data *data, t_vec3 ray_pos, t_vec3 ray_dir)
 {
 	t_vec3	side_dist;
 	t_vec3	step;
 	int8_t	hit;
+	int8_t	side;
+	t_vec3	map_pos;
 
-	ft_vec3_init(side_dist, (double[]){0, 0, 0});
-	ft_vec3_init(step, (double[]){0, 0, 0});
+	ft_vec3_init(data->actual_delta_dist, (double[])
+		{sqrt(1 + (ray_dir[1] * ray_dir[1]) / (ray_dir[0] * ray_dir[0])),
+		sqrt(1 + (ray_dir[0] * ray_dir[0]) / (ray_dir[1] * ray_dir[1])), 0});
+	ft_vec3_init(map_pos, (double[])
+		{(int)ray_pos[0], (int)ray_pos[1], 0});
+	ft_vec3_copy(data->actual_ray_dir, ray_dir);
+	ft_vec3_copy(data->actual_ray_pos, ray_pos);
+	init_step_and_side_dist(data, data->actual_step, data->actual_side_dist);
+	hit = 0;
+	while (!hit)
+	{
+		if (side_dist[0] < side_dist[1])
+		{
+			side_dist[0] += data->actual_delta_dist[0];
+			map_pos[0] += step[0];
+			side = 0;
+		}
+		else
+		{
+			side_dist[1] += data->actual_delta_dist[1];
+			map_pos[1] += step[1];
+			side = 1;
+		}
+		if (data->map[(int)map_pos[0]][(int)map_pos[1]] > 0)
+			hit = 1;
+	}
 }
 
 static void	render(t_data *data)
@@ -39,13 +85,12 @@ static void	render(t_data *data)
 	double	x;
 	t_vec3	ray_pos;
 	t_vec3	ray_dir;
-	double	y;
 	
 	x = 0;
-	y = 0;
 	while (x < data->w)
 	{
 		get_ray(data, ray_pos, ray_dir, x);
+		get_hit(data, ray_pos, ray_dir);
 		x++;
 	}
 }
