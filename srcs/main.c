@@ -24,7 +24,7 @@ int main(int ac, char **av)
 	mlx_put_image_to_window(data.mlx, data.win, data.img, 0, 0);
 
 	data.global_rotation_speed = 0.2;
-	ft_vec3_init(data.cam_pos, (double[]){22, 11.5, 0});
+	ft_vec3_init(data.cam_pos, (double[]){5, 5, 0});
 	sync_map_squares(&data);
 
 	ft_vec3_init(data.cam_dir, (double[]){-1, 0, 0});

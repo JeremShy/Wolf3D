@@ -11,7 +11,7 @@ void	print_map(t_data *data)
 		j = 0;
 		while (j < data->size_x)
 		{
-			ft_putchar(data->map[i][j]);
+			ft_putchar(data->map[i][j] + '0');
 			j++;
 		}
 		ft_putchar('\n');

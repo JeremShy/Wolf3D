@@ -22,22 +22,22 @@ static void	init_step_and_side_dist(t_data *data, t_vec3 step, t_vec3 side_dist)
 {
 	if (data->actual_ray_dir[0] < 0) // Rayon vers la gauche
 	{
-		step[0] = -1;
+		step[0] = -1.0;
 		side_dist[0] = (data->actual_ray_pos[0] - (int)data->actual_ray_pos[0]) * data->actual_delta_dist[0];
 	}
 	else
 	{
-		step[0] = 1;
+		step[0] = 1.0;
 		side_dist[0] = ((int)data->actual_ray_pos + 1.0 - data->actual_ray_pos[0]) * data->actual_delta_dist[0];
 	}
 	if (data->actual_ray_dir[1] < 0) // Rayon vers la gauche
 	{
-		step[1] = -1;
+		step[1] = -1.0;
 		side_dist[1] = (data->actual_ray_pos[1] - (int)data->actual_ray_pos[1]) * data->actual_delta_dist[1];
 	}
 	else
 	{
-		step[1] = 1;
+		step[1] = 1.0;
 		side_dist[1] = ((int)data->actual_ray_pos + 1.0 - data->actual_ray_pos[1]) * data->actual_delta_dist[1];
 	}
 }
@@ -47,8 +47,6 @@ static void	init_step_and_side_dist(t_data *data, t_vec3 step, t_vec3 side_dist)
 static void	get_hit(t_data *data, t_vec3 ray_pos, t_vec3 ray_dir)
 {
 	t_vec3	side_dist;
-	t_vec3	step;
-	int8_t	hit;
 	int8_t	side;
 	t_vec3	map_pos;
 
@@ -60,29 +58,28 @@ static void	get_hit(t_data *data, t_vec3 ray_pos, t_vec3 ray_dir)
 	ft_vec3_copy(data->actual_ray_dir, ray_dir);
 	ft_vec3_copy(data->actual_ray_pos, ray_pos);
 	init_step_and_side_dist(data, data->actual_step, data->actual_side_dist);
-	hit = 0;
-	while (!hit)
+	while (1 == 1)
 	{
 		if (side_dist[0] < side_dist[1])
 		{
 			side_dist[0] += data->actual_delta_dist[0];
-			map_pos[0] += step[0];
+			map_pos[0] += data->actual_step[0];
 			side = 0;
 		}
 		else
 		{
 			side_dist[1] += data->actual_delta_dist[1];
-			map_pos[1] += step[1];
+			map_pos[1] += data->actual_step[1];
 			side = 1;
 		}
 		if (data->map[(int)map_pos[0]][(int)map_pos[1]] > 0)
-			hit = 1;
+			return ;
 	}
 }
 
 static void	render(t_data *data)
 {
-	double	x;
+	int	x;
 	t_vec3	ray_pos;
 	t_vec3	ray_dir;
 	
@@ -100,7 +97,6 @@ int	loop_hook(void *data_void)
 	t_data	*data;
 
 	data = (t_data*)data_void;
-	data->must_refresh = 0;
 	if (data->must_refresh || data->going_back || data->going_front
 		|| data->going_left || data->going_right || data->rotating)
 	{
