@@ -44,7 +44,7 @@ static void	init_step_and_side_dist(t_data *data, t_vec3 step, t_vec3 side_dist)
 
 
 
-static void	get_hit(t_data *data, t_vec3 ray_pos, t_vec3 ray_dir)
+static void	get_hit(t_data *data, t_vec3 ray_pos, t_vec3 ray_dir, t_hit_info *ret)
 {
 	t_vec3	side_dist;
 	int8_t	side;
@@ -73,21 +73,35 @@ static void	get_hit(t_data *data, t_vec3 ray_pos, t_vec3 ray_dir)
 			side = 1;
 		}
 		if (data->map[(int)map_pos[0]][(int)map_pos[1]] > 0)
-			return ;
+			break ;
 	}
+	ret->side = side;
+	ft_vec3_copy(ret->collision_pos, map_pos);
+
+// if (side == 0) {
+// 	perpWallDist = Math.abs((mapX-rayPosX+(1-stepX)/2)/rayDirX);
+// } else {
+// 	perpWallDist = Math.abs((mapY-rayPosY+(1-stepY)/2)/rayDirY);
+// }
+	if (side == 0)
+		ret->corrected_dist = fabs((map_pos[0] - ray_pos[0] + (1 - data->actual_step[0]) / 2) / ray_dir[0]);
+	else
+		ret->corrected_dist = fabs((map_pos[1] - ray_pos[1] + (1 - data->actual_step[1]) / 2) / ray_dir[1]);	
 }
 
 static void	render(t_data *data)
 {
-	int	x;
-	t_vec3	ray_pos;
-	t_vec3	ray_dir;
-	
+	int			x;
+	t_vec3		ray_pos;
+	t_vec3		ray_dir;
+	t_hit_info	hit;
+
 	x = 0;
 	while (x < data->w)
 	{
 		get_ray(data, ray_pos, ray_dir, x);
-		get_hit(data, ray_pos, ray_dir);
+		get_hit(data, ray_pos, ray_dir, &hit);
+		printf("wall touched distance : %f\n", hit.corrected_dist);
 		x++;
 	}
 }

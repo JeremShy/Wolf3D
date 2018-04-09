@@ -51,6 +51,12 @@ typedef struct	s_data {
 	t_vec3		actual_side_dist;
 }				t_data;
 
+typedef struct	s_hit_info {
+		int8_t	side;
+		t_vec3	collision_pos;
+		double	corrected_dist;
+}				t_hit_info;
+
 int		init_the_mlx(t_data *data);
 void	free_mlx_and_exit(t_data *data);
 
