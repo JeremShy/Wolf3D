@@ -51,8 +51,8 @@ static void	get_hit(t_data *data, t_vec3 ray_pos, t_vec3 ray_dir, t_hit_info *re
 	t_vec3	map_pos;
 
 	ft_vec3_init(data->actual_delta_dist, (double[])
-		{sqrt(1 + (ray_dir[1] * ray_dir[1]) / (ray_dir[0] * ray_dir[0])),
-		sqrt(1 + (ray_dir[0] * ray_dir[0]) / (ray_dir[1] * ray_dir[1])), 0});
+		{sqrt(1 + ((ray_dir[1] * ray_dir[1]) / (ray_dir[0] * ray_dir[0]))),
+		sqrt(1 + ((ray_dir[0] * ray_dir[0]) / (ray_dir[1] * ray_dir[1]))), 0});
 	ft_vec3_init(map_pos, (double[])
 		{(int)ray_pos[0], (int)ray_pos[1], 0});
 	ft_vec3_copy(data->actual_ray_dir, ray_dir);
@@ -73,20 +73,37 @@ static void	get_hit(t_data *data, t_vec3 ray_pos, t_vec3 ray_dir, t_hit_info *re
 			side = 1;
 		}
 		if (data->map[(int)map_pos[0]][(int)map_pos[1]] > 0)
+		{
+			// // printf("Collisison detected. - {%f - %f}\n", map_pos[0], map_pos[1]);
 			break ;
+		}
 	}
 	ret->side = side;
 	ft_vec3_copy(ret->collision_pos, map_pos);
 
-// if (side == 0) {
-// 	perpWallDist = Math.abs((mapX-rayPosX+(1-stepX)/2)/rayDirX);
-// } else {
-// 	perpWallDist = Math.abs((mapY-rayPosY+(1-stepY)/2)/rayDirY);
-// }
 	if (side == 0)
 		ret->corrected_dist = fabs((map_pos[0] - ray_pos[0] + (1 - data->actual_step[0]) / 2) / ray_dir[0]);
 	else
 		ret->corrected_dist = fabs((map_pos[1] - ray_pos[1] + (1 - data->actual_step[1]) / 2) / ray_dir[1]);	
+}
+
+static void	draw_col(t_data *data, t_hit_info *hit)
+{
+	int	height;
+	int	start;
+	int	end;
+	int	y;
+
+	height = (int)fabs(((double)data->h / hit->corrected_dist));
+	start = (int)(-1 * height / 2 + data->h / 2);
+	end = (int)(height / 2 + data->h / 2);
+
+	if (start < 0)
+		start = 0;
+	if (end >= data->h)
+		end = data->h - 1;
+	
+
 }
 
 static void	render(t_data *data)
