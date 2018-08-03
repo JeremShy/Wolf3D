@@ -54,6 +54,9 @@ $(OBJ_PATH)%.o: $(SRC_PATH)%.c
 	@mkdir -p $(OBJ_PATH)
 	$(CC) $(CFLAGS) $(INC) -o $@ -c $<
 
+partial_clean:
+	@rm -fv $(OBJ)
+
 clean:
 	@rm -fv $(OBJ)
 	@rmdir -p $(OBJ_PATH) 2> /dev/null || true
