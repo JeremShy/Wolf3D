@@ -1,9 +1,46 @@
 #include <wolf3d.h>
 
+
+// The player has to move depending of his direction
+/*
+	if direction is {-1, 0} and the player is going front
+	 The player has to move of {-MOVEMENT_SPEED, 0}
+
+	if (direction is {-1, 0}) and the player is going going_left
+		the player has to move of {0, -MOVEMENT_SPEED}
+*/
+
+
 static void	refresh_player(t_data *data)
 {
 	//TODO : Move
-	(void)data;
+	t_vec3 move_vector;
+
+	ft_vec3_init(move_vector, (double[3]){0, 0, 0});
+	if (data->going_front)
+	{
+		move_vector[0] = MOVEMENT_SPEED * data->cam_dir[0];
+		move_vector[1] = MOVEMENT_SPEED * data->cam_dir[1];
+	}
+	else if (data->going_back)
+	{
+		move_vector[0] =  -1 * MOVEMENT_SPEED * data->cam_dir[0];
+		move_vector[1] =  -1 * MOVEMENT_SPEED * data->cam_dir[1];
+	}
+	if (data->going_left)
+	{
+		move_vector[0] = MOVEMENT_SPEED * data->cam_dir[1];
+		move_vector[1] = MOVEMENT_SPEED * data->cam_dir[0];
+	}
+	else if (data->going_right)
+	{
+		move_vector[0] =  -1 * MOVEMENT_SPEED * data->cam_dir[1];
+		move_vector[1] =  -1 * MOVEMENT_SPEED * data->cam_dir[0];
+	}
+	ft_vec3_add(data->cam_pos, data->cam_pos, move_vector);
+	printf("new pos : \n");
+	ft_vec3_print(data->cam_pos);
+	// if (data->)
 }
 
 static void	get_ray(t_data *data, t_vec3 ray_pos, t_vec3 ray_dir, double x)
@@ -106,11 +143,11 @@ static void	draw_col(t_data *data, t_hit_info *hit, int x)
 	while (y < WIN_SIZE)
 	{
 		if (y < start)
-			put_pixel_to_image(data, 0, x, y);
+			put_pixel_to_image(data, 0xAAAAAA, x, y);
 		else if (y >= start && y <= end)
 			put_pixel_to_image(data, 0xFFFFFF, x, y);
 		else
-			put_pixel_to_image(data, 0, x, y);
+			put_pixel_to_image(data, 0xAAAAAA, x, y);
 		y++;
 	}
 	printf ("Start : %d and end : %d\n", start, end);

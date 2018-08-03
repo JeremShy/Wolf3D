@@ -7,6 +7,7 @@
 # include <libftmatrices.h>
 
 # define WIN_SIZE 420
+# define MOVEMENT_SPEED .1f
 
 typedef struct	s_data {
 	void		*mlx;
