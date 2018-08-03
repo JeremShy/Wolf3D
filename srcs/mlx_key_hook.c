@@ -27,7 +27,7 @@ int	key_press_hook(int keycode, void *data_void)
 	}
 	else if (keycode == 12) // Q
 		data->going_left = 1;
-	else if (keycode == 14) // D
+	else if (keycode == 14) // E
 		data->going_right = 1;
 	return (1);
 }
@@ -48,7 +48,7 @@ int	key_release_hook(int keycode, void *data_void)
 		data->rotating = 0;
 	else if (keycode == 12) // Q
 		data->going_left = 0;
-	else if (keycode == 14) // D
+	else if (keycode == 14) // E
 		data->going_right = 0;
 	return (1);
 }
