@@ -10,7 +10,7 @@ static void	get_ray(t_data *data, t_vec3 ray_pos, t_vec3 ray_dir, double x)
 {
 	double	col_pos;
 
-	col_pos = (2 * x / data->w) - 1; //  -1 <= col_pos <= 1
+	col_pos = 2 * (x / data->w) - 1; //  -1 <= col_pos <= 1
 
 	ft_vec3_copy(ray_pos, data->cam_pos); // {0 <=> size_x, 0 <=> size_y}
 	ft_vec3_init(ray_dir,
@@ -28,7 +28,7 @@ static void	init_step_and_side_dist(t_data *data, t_vec3 step, t_vec3 side_dist)
 	else
 	{
 		step[0] = 1.0;
-		side_dist[0] = ((int)data->actual_ray_pos + 1.0 - data->actual_ray_pos[0]) * data->actual_delta_dist[0];
+		side_dist[0] = ((double)(int)(data->actual_ray_pos[0]) + 1.0 - data->actual_ray_pos[0]) * data->actual_delta_dist[0];
 	}
 	if (data->actual_ray_dir[1] < 0) // Rayon vers la gauche
 	{
@@ -38,7 +38,7 @@ static void	init_step_and_side_dist(t_data *data, t_vec3 step, t_vec3 side_dist)
 	else
 	{
 		step[1] = 1.0;
-		side_dist[1] = ((int)data->actual_ray_pos + 1.0 - data->actual_ray_pos[1]) * data->actual_delta_dist[1];
+		side_dist[1] = ((double)(int)(data->actual_ray_pos[1]) + 1.0 - data->actual_ray_pos[1]) * data->actual_delta_dist[1];
 	}
 }
 
@@ -84,10 +84,10 @@ static void	get_hit(t_data *data, t_vec3 ray_pos, t_vec3 ray_dir, t_hit_info *re
 	if (side == 0)
 		ret->corrected_dist = fabs((map_pos[0] - ray_pos[0] + (1 - data->actual_step[0]) / 2) / ray_dir[0]);
 	else
-		ret->corrected_dist = fabs((map_pos[1] - ray_pos[1] + (1 - data->actual_step[1]) / 2) / ray_dir[1]);	
+		ret->corrected_dist = fabs((map_pos[1] - ray_pos[1] + (1 - data->actual_step[1]) / 2) / ray_dir[1]);
 }
 
-static void	draw_col(t_data *data, t_hit_info *hit)
+static void	draw_col(t_data *data, t_hit_info *hit, int x)
 {
 	int	height;
 	int	start;
@@ -102,8 +102,18 @@ static void	draw_col(t_data *data, t_hit_info *hit)
 		start = 0;
 	if (end >= data->h)
 		end = data->h - 1;
-	
-
+	y = 0;
+	while (y < WIN_SIZE)
+	{
+		if (y < start)
+			put_pixel_to_image(data, 0, x, y);
+		else if (y >= start && y <= end)
+			put_pixel_to_image(data, 0xFFFFFF, x, y);
+		else
+			put_pixel_to_image(data, 0, x, y);
+		y++;
+	}
+	printf ("Start : %d and end : %d\n", start, end);
 }
 
 static void	render(t_data *data)
@@ -118,6 +128,7 @@ static void	render(t_data *data)
 	{
 		get_ray(data, ray_pos, ray_dir, x);
 		get_hit(data, ray_pos, ray_dir, &hit);
+		draw_col(data, &hit, x);
 		printf("wall touched distance : %f\n", hit.corrected_dist);
 		x++;
 	}
