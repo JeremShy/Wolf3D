@@ -6,7 +6,7 @@
 # include <ft_printf.h>
 # include <libftmatrices.h>
 
-# define WIN_SIZE 840
+# define WIN_SIZE 420
 
 typedef struct	s_data {
 	void		*mlx;
@@ -26,9 +26,9 @@ typedef struct	s_data {
 	int			size_y;
 
 	t_vec3		cam_pos;	// {0 <=> size_x, 0 <=> size_y}
-	t_vec3		cam_square;
+	t_vec3		cam_square; // (It is the position of the camera as a square in the map, instead of as a float position)
 	t_vec3		cam_dir;	// -1 <=> 1  - Vers ou on est tourne
-	t_vec3		cam_plane;	// J'ai pas trop compris a quoi ca sert.
+	t_vec3		cam_plane;	// Plan de la camera (Perpendiculaaire a la direction de la camera)
 
 	double		w;			// En pixel
 	double		h;			// En pixel
