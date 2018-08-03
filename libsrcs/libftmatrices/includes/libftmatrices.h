@@ -8,8 +8,8 @@
 #  define M_PI 3.1415926535897932384626
 # endif
 
-#define degrees_to_radians(angle) (angle * M_PI / 180.0)
-#define radians_to_degrees(angle) (angle * 180.0 / M_PI)
+# define degrees_to_radians(angle) (angle * M_PI / 180.0)
+# define radians_to_degrees(angle) (angle * 180.0 / M_PI)
 
 typedef	double t_mat4x4[4][4]; // mat4x4[line][column]
 typedef double	t_vec4[4];
