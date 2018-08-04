@@ -14,42 +14,39 @@
 static void	refresh_player(t_data *data)
 {
 	//TODO : Move
-	t_vec3		move_vector;
+	t_vec3		movement;
 	t_vec3		next_pos;
 	int8_t		next_tile;
 
-	ft_vec3_init(move_vector, (double[3]){0, 0, 0});
+	ft_vec3_init(movement, (double[3]){0, 0, 0});
 	if (data->going_front)
 	{
-		move_vector[0] = MOVEMENT_SPEED * data->cam_dir[0];
-		move_vector[1] = MOVEMENT_SPEED * data->cam_dir[1];
+		movement[0] = MOVEMENT_SPEED * data->cam_dir[0];
+		movement[1] = MOVEMENT_SPEED * data->cam_dir[1];
 	}
 	else if (data->going_back)
 	{
-		move_vector[0] =  -1 * MOVEMENT_SPEED * data->cam_dir[0];
-		move_vector[1] =  -1 * MOVEMENT_SPEED * data->cam_dir[1];
+		movement[0] =  -1 * MOVEMENT_SPEED * data->cam_dir[0];
+		movement[1] =  -1 * MOVEMENT_SPEED * data->cam_dir[1];
 	}
 	if (data->going_left)
 	{
-		move_vector[0] = MOVEMENT_SPEED * data->cam_dir[1];
-		move_vector[1] = MOVEMENT_SPEED * data->cam_dir[0];
+		movement[0] = MOVEMENT_SPEED * data->cam_dir[1];
+		movement[1] = MOVEMENT_SPEED * data->cam_dir[0];
 	}
 	else if (data->going_right)
 	{
-		move_vector[0] =  -1 * MOVEMENT_SPEED * data->cam_dir[1];
-		move_vector[1] =  -1 * MOVEMENT_SPEED * data->cam_dir[0];
+		movement[0] =  -1 * MOVEMENT_SPEED * data->cam_dir[1];
+		movement[1] =  -1 * MOVEMENT_SPEED * data->cam_dir[0];
 	}
-	ft_vec3_add(next_pos, data->cam_pos, move_vector);
+	ft_vec3_add(next_pos, data->cam_pos, movement);
 	next_tile = data->map[(int)next_pos[0]][(int)next_pos[1]];
-	if (next_tile != 0)
-	{
-		return ;
-	}
 
-	printf("new pos : \n");
+	if (next_tile != 0) // Collision
+		return ;
 	ft_vec3_copy(data->cam_pos, next_pos);
-	ft_vec3_print(data->cam_pos);
-	// if (data->)
+	// printf("new pos : \n");
+	// ft_vec3_print(data->cam_pos);
 }
 
 static void	get_ray(t_data *data, t_vec3 ray_pos, t_vec3 ray_dir, double x)
@@ -104,7 +101,7 @@ static void	get_hit(t_data *data, t_vec3 ray_pos, t_vec3 ray_dir, t_hit_info *re
 	ft_vec3_copy(data->actual_ray_dir, ray_dir);
 	ft_vec3_copy(data->actual_ray_pos, ray_pos);
 	init_step_and_side_dist(data, data->actual_step, data->actual_side_dist);
-	while (1 == 1)
+	while (data->map[(int)map_pos[0]][(int)map_pos[1]] <= 0)
 	{
 		if (side_dist[0] < side_dist[1])
 		{
@@ -117,11 +114,6 @@ static void	get_hit(t_data *data, t_vec3 ray_pos, t_vec3 ray_dir, t_hit_info *re
 			side_dist[1] += data->actual_delta_dist[1];
 			map_pos[1] += data->actual_step[1];
 			side = 1;
-		}
-		if (data->map[(int)map_pos[0]][(int)map_pos[1]] > 0)
-		{
-			// // printf("Collisison detected. - {%f - %f}\n", map_pos[0], map_pos[1]);
-			break ;
 		}
 	}
 	ret->side = side;
