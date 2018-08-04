@@ -16,7 +16,6 @@ int main(int ac, char **av)
 		ft_printf("%s: parse error\n", av[0]);
 		return (2);
 	}
-	print_map(&data);
 	ft_printf("size x : %d, size y : %d\n", data.size_x, data.size_y);
 	if (!init_the_mlx(&data))
 		return (0);
@@ -24,8 +23,9 @@ int main(int ac, char **av)
 	mlx_put_image_to_window(data.mlx, data.win, data.img, 0, 0);
 
 	data.global_rotation_speed = 0.2;
-	ft_vec3_init(data.cam_pos, (double[]){5, 5, 0});
+	ft_vec3_init(data.cam_pos, (double[]){10.1, 10.1, 0});
 	sync_map_squares(&data);
+	print_map(&data);
 
 	ft_vec3_init(data.cam_dir, (double[]){-1, 0, 0});
 	ft_vec3_init(data.cam_plane, (double[]){0, 1, 0});

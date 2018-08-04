@@ -6,7 +6,7 @@
 # include <ft_printf.h>
 # include <libftmatrices.h>
 
-# define WIN_SIZE 420
+# define WIN_SIZE 1000
 # define MOVEMENT_SPEED .1f
 
 typedef struct	s_data {
@@ -29,7 +29,7 @@ typedef struct	s_data {
 	t_vec3		cam_pos;	// {0 <=> size_x, 0 <=> size_y}
 	t_vec3		cam_square; // (It is the position of the camera as a square in the map, instead of as a float position)
 	t_vec3		cam_dir;	// -1 <=> 1  - Vers ou on est tourne
-	t_vec3		cam_plane;	// Plan de la camera (Perpendiculaaire a la direction de la camera)
+	t_vec3		cam_plane;	// Plan de la camera (Perpendiculaaire a la direction de la camera). Le FOV est un ration entre la taille du vecteur de dirction et celui du plan de la camera
 
 	double		w;			// En pixel
 	double		h;			// En pixel
@@ -78,5 +78,8 @@ int		red_cross_hook(void *data);
 int8_t	parse(t_data *data, const char *file);
 
 void	print_map(t_data *data);
+
+void	refresh_player(t_data *data);
+
 
 #endif

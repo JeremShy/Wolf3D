@@ -6,6 +6,7 @@ SRC_NAME = main.c \
 			mlx_key_hook.c \
 			misc_hooks.c \
 			parse.c \
+			movement.c \
 			debug.c
 
 OBJ_PATH = ./obj/
@@ -48,7 +49,7 @@ $(LIB_DIR)libftmatrices.a:
 	@make -C libsrcs/libftmatrices
 
 $(NAME) : $(LIB_DIR)libmlx.a $(LIB_DIR)libft.a $(LIB_DIR)libftprintf.a $(LIB_DIR)libftmatrices.a $(OBJ)
-	$(CC) $(CFLAGS) $(OBJ) -L $(LIB_DIR) $(LFLAGS) -o $@ 
+	$(CC) $(CFLAGS) $(OBJ) -L $(LIB_DIR) $(LFLAGS) -o $@
 
 $(OBJ_PATH)%.o: $(SRC_PATH)%.c
 	@mkdir -p $(OBJ_PATH)

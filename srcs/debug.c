@@ -11,7 +11,10 @@ void	print_map(t_data *data)
 		j = 0;
 		while (j < data->size_x)
 		{
-			ft_putchar(data->map[i][j] + '0');
+			if (i == (int)data->cam_pos[0] && j == (int)data->cam_pos[1])
+				ft_putchar('p');
+			else
+				ft_putchar(data->map[i][j] + '0');
 			j++;
 		}
 		ft_putchar('\n');
