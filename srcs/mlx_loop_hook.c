@@ -14,7 +14,9 @@
 static void	refresh_player(t_data *data)
 {
 	//TODO : Move
-	t_vec3 move_vector;
+	t_vec3		move_vector;
+	t_vec3		next_pos;
+	int8_t		next_tile;
 
 	ft_vec3_init(move_vector, (double[3]){0, 0, 0});
 	if (data->going_front)
@@ -37,8 +39,15 @@ static void	refresh_player(t_data *data)
 		move_vector[0] =  -1 * MOVEMENT_SPEED * data->cam_dir[1];
 		move_vector[1] =  -1 * MOVEMENT_SPEED * data->cam_dir[0];
 	}
-	ft_vec3_add(data->cam_pos, data->cam_pos, move_vector);
+	ft_vec3_add(next_pos, data->cam_pos, move_vector);
+	next_tile = data->map[(int)next_pos[0]][(int)next_pos[1]];
+	if (next_tile != 0)
+	{
+		return ;
+	}
+
 	printf("new pos : \n");
+	ft_vec3_copy(data->cam_pos, next_pos);
 	ft_vec3_print(data->cam_pos);
 	// if (data->)
 }
@@ -142,11 +151,11 @@ static void	draw_col(t_data *data, t_hit_info *hit, int x)
 	y = 0;
 	while (y < WIN_SIZE)
 	{
-		if (y < start)
-			put_pixel_to_image(data, 0xAAAAAA, x, y);
-		else if (y >= start && y <= end)
+		if (y < start) // Partie haute
+			put_pixel_to_image(data, 0x0000aa, x, y);
+		else if (y >= start && y <= end) // Partie mediane
 			put_pixel_to_image(data, 0xFFFFFF, x, y);
-		else
+		else // Partie basse
 			put_pixel_to_image(data, 0xAAAAAA, x, y);
 		y++;
 	}
