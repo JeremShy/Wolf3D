@@ -108,6 +108,7 @@ int8_t			parse(t_data *data, const char *file)
 	}
 	if ((r = get_size_y(file)) == 0)
 		return (0);
+	printf("size_y = %d\n", r);
 	data->size_y = r;
 	r = get_next_line(fd, &str);
 	if (r == 0 || r == -1)

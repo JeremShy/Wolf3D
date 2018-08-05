@@ -38,7 +38,7 @@ void	refresh_player(t_data *data)
 		movement[1] =  -1 * MOVEMENT_SPEED * data->cam_dir[0];
 	}
 	ft_vec3_add(next_pos, data->cam_pos, movement);
-	next_tile = data->map[(int)next_pos[0]][(int)next_pos[1]];
+	next_tile = data->map[(int)next_pos[1]][(int)next_pos[0]];
 
 	if (next_tile != 0) // Collision
 		return ;
