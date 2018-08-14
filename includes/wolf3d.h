@@ -56,6 +56,7 @@ typedef struct	s_hit_info {
 		int8_t	side;
 		t_vec3	collision_pos;
 		double	corrected_dist;
+		int8_t	error;
 }				t_hit_info;
 
 int		init_the_mlx(t_data *data);

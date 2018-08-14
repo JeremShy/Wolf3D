@@ -40,7 +40,7 @@ static void	init_step_and_side_dist(t_data *data, t_vec3 step, t_vec3 side_dist)
 	}
 }
 
-static void get_first_x(t_data *data, t_vec3 ray_pos, t_vec3 ray_dir, t_vec3 first_x)
+static void get_first_x(t_data *data, t_vec3 ray_pos, t_vec3 ray_dir, t_hit_info first_x)
 {
 	int	map_pos[2];
 	t_vec3 first_inter;
@@ -49,21 +49,16 @@ static void get_first_x(t_data *data, t_vec3 ray_pos, t_vec3 ray_dir, t_vec3 fir
 	double yd;
 	double bd;
 	t_vec3 delta_x;
+	t_vec3 actual_pos;
 
 	map_pos[0] = (int)ray_pos[0];
 	map_pos[1] = (int)ray_pos[1];
-
-	// ft_vec3_init(first_inter, (double[])
-	// 							{(double)(map_pos[0] + 1),
-	// 							((double)(map_pos[0] + 1) - ray_pos[0]) * ray_pos[1] / ray_dir[0] + ray_pos[1],
-	// 							0});
 
 	printf("ray_pos : %f - %f\n", ray_pos[0], ray_pos[1]);
 	printf("ray_dir : %f - %f\n", ray_dir[0], ray_dir[1]);
 
 	yb = ray_dir[1] > 0. ? (int)(ray_pos[1]) + 1 : ray_pos[1];
 	ab = (yb - ray_pos[1]) / ray_dir[1];
-	printf("yb : %f - ab : %f\n", yb, ab);
 	ft_vec3_init(first_inter, (double[]){
 		ab * ray_dir[0] + ray_pos[0],
 		ab * ray_dir[1] + ray_pos[1],
@@ -73,63 +68,50 @@ static void get_first_x(t_data *data, t_vec3 ray_pos, t_vec3 ray_dir, t_vec3 fir
 	ft_vec3_print(first_inter);
 	yd = ray_dir[1] > 0. ? (int)first_inter[1] + 1 : (int)first_inter[1] - 1;
 	bd = (yd - first_inter[1]) / ray_dir[1];
-	printf("yd : %f - bd %f\n", yd, bd);
 	ft_vec3_init(delta_x, (double[]){
 		(yd - first_inter[1]),
 		ray_dir[0] * bd,
 		0});
 	printf("delta_dirst :\n");
 	ft_vec3_print(delta_x);
+	ft_vec3_copy(actual_pos, first_inter);
+	first_x.error = 0;
+	while (1)
+	{
+		if (data->map[(int)actual_pos[1]][(int)actual_pos[0]] != 0)
+		{
+			ft_vec3_copy(first_x.collision_pos, actual_pos);
+			printf("COLLISION ON %f - %f\n", first_x.collision_pos[0], first_x.collision_pos[1]);
+			first_x.side = 1;
+			return ;
+		}
+		ft_vec3_add(actual_pos, actual_pos, delta_x);
+		if ((int)actual_pos[0] >= data->size_y || (int)actual_pos[1] >= data->size_x)
+		{
+			first_x.error = 1;
+			return ;
+		}
+	}
 }
 
 
 static void	get_hit(t_data *data, t_vec3 ray_pos, t_vec3 ray_dir, t_hit_info *ret)
 {
-	t_vec3	first_x;
+	t_hit_info	first_x;
 
+	ft_bzero(&first_x, sizeof(t_hit_info));
 	get_first_x(data, ray_pos, ray_dir, first_x);
-	/*
-	t_vec3	side_dist;
-	int8_t	side;
-	int			hit;
-	int	map_pos[2];
-
-	// ft_vec3_init(map_pos, (double[])
-	// 	{(int)ray_pos[0], (int)ray_pos[1], 0});
-
-	ft_vec3_init(data->actual_delta_dist, (double[]) // sqrt(1 + y^2 / x^ 2) ; sqrt(1 + x^2 / y^ 2)
-		{fabs(1. / ray_dir[0]),
-		fabs(1. / ray_dir[1]), 0});
-
-	ft_vec3_copy(data->actual_ray_dir, ray_dir);
-	ft_vec3_copy(data->actual_ray_pos, ray_pos);
-	init_step_and_side_dist(data, data->actual_step, data->actual_side_dist);
-	hit = 0;
-
-	while (hit == 0)
+	if (first_x.error)
 	{
-		if (side_dist[0] < side_dist[1]) // On a parcouru plus d'espace pour aller d'intersections horizontales en intersections horizontales que pour aller d'intersections verticales en intersections verticales
-		{
-			side_dist[0] = side_dist[0] + data->actual_delta_dist[0];
-			map_pos[0] = map_pos[0] + (int)data->actual_step[0];
-			side = 0;
-		}
-		else
-		{
-			side_dist[1] = side_dist[1] + data->actual_delta_dist[1];
-			map_pos[1] = map_pos[1] + (int)data->actual_step[1];
-			side = 1;
-		}
-		if (data->map[map_pos[1]][map_pos[0]] != 0)
-			hit = 1;
+		printf("no collision on x\n");
+		exit(1);
+		*ret = first_x;
+		return ;
 	}
-	printf("Wall detected at %d %d. touched side is %d\n", map_pos[0], map_pos[1], side);
-	printf("side_dist[][] %f %f\n", side_dist[0], side_dist[1]);
-	printf("delta_dist[][] %f %f\n", data->actual_delta_dist[0], data->actual_delta_dist[1]);
-
-
-	ret->side = side;
-	// ft_vec3_copy(ret->collision_pos, map_pos);
+	printf("First x intersection : %d - %d\n", (int)first_x.collision_pos[0], (int)first_x.collision_pos[1]);
+	first_x.corrected_dist = sqrt((first_x.collision_pos[0] - ray_pos[0]) * (first_x.collision_pos[0] - ray_pos[0]) + (first_x.collision_pos[1] - ray_pos[1]) * (first_x.collision_pos[1] - ray_pos[1]));
+	*ret = first_x;
+	/*
 
 	if (side == 0)
 		ret->corrected_dist = (map_pos[0] - ray_pos[0] + (int)(1 - (int)data->actual_step[0]) / 2) / ray_dir[0];
@@ -188,7 +170,7 @@ static void	render(t_data *data)
 		printf("x = %d\n", x);
 		get_ray(data, ray_pos, ray_dir, x);
 		get_hit(data, ray_pos, ray_dir, &hit);
-		// draw_col(data, &hit, x);
+		draw_col(data, &hit, x);
 		x++;
 	}
 }
