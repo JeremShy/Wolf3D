@@ -6,7 +6,7 @@
 # include <ft_printf.h>
 # include <libftmatrices.h>
 
-# define WIN_SIZE 1024
+# define WIN_SIZE 512
 # define MOVEMENT_SPEED .1f
 
 typedef struct	s_data {
