@@ -23,12 +23,12 @@ int main(int ac, char **av)
 	mlx_put_image_to_window(data.mlx, data.win, data.img, 0, 0);
 
 	data.global_rotation_speed = 0.2;
-	ft_vec3_init(data.cam_pos, (double[]){10, 10, 0});
+	ft_vec3_init(data.cam_pos, (double[]){10, 5, 0});
 	sync_map_squares(&data);
 	print_map(&data);
 
 	ft_vec3_init(data.cam_dir, (double[]){0, 1, 0});
-	ft_vec3_init(data.cam_plane, (double[]){1, 0, 0});
+	ft_vec3_init(data.cam_plane, (double[]){-1, 0, 0});
 	data.w = WIN_SIZE;
 	data.h = WIN_SIZE;
 	data.must_refresh = 1;

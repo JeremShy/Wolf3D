@@ -1,0 +1,50 @@
+#include <wolf3d.h>
+
+void get_first_x(t_data *data, t_vec3 ray_pos, t_vec3 ray_dir, t_hit_info *first_x)
+{
+	int	map_pos[2];
+	t_vec3 first_inter;
+	double yb;
+	double ab;
+	double yd;
+	double bd;
+	t_vec3 delta_x;
+	t_vec3 actual_pos;
+
+	map_pos[0] = (int)ray_pos[0];
+	map_pos[1] = (int)ray_pos[1];
+
+	printf("x ray_pos : %f - %f\n", ray_pos[0], ray_pos[1]);
+	printf("x ray_dir : %f - %f\n", ray_dir[0], ray_dir[1]);
+
+	yb = ray_dir[1] > 0. ? (int)(ray_pos[1]) + 1 : ray_pos[1];
+	ab = (yb - ray_pos[1]) / ray_dir[1];
+	ft_vec3_init(first_inter, (double[]){
+		ab * ray_dir[0] + ray_pos[0],
+		ab * ray_dir[1] + ray_pos[1],
+		0.
+	});
+	yd = ray_dir[1] > 0. ? (int)first_inter[1] + 1 : (int)first_inter[1] - 1;
+	bd = (yd - first_inter[1]) / ray_dir[1];
+	ft_vec3_init(delta_x, (double[]){
+		(yd - first_inter[1]),
+		ray_dir[0] * bd,
+		0});
+	ft_vec3_copy(actual_pos, first_inter);
+	first_x->error = 0;
+	while (1)
+	{
+		if ((int)actual_pos[1] >= data->size_y || (int)actual_pos[0] >= data->size_x)
+		{
+			first_x->error = 1;
+			return ;
+		}
+		if (data->map[(int)actual_pos[1]][(int)actual_pos[0]] != 0)
+		{
+			ft_vec3_copy(first_x->collision_pos, actual_pos);
+			first_x->side = 1;
+			return ;
+		}
+		ft_vec3_add(actual_pos, actual_pos, delta_x);
+	}
+}

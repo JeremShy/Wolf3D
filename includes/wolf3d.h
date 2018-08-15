@@ -82,5 +82,7 @@ void	print_map(t_data *data);
 
 void	refresh_player(t_data *data);
 
+void get_first_x(t_data *data, t_vec3 ray_pos, t_vec3 ray_dir, t_hit_info *first_x);
+void get_first_y(t_data *data, t_vec3 ray_pos, t_vec3 ray_dir, t_hit_info *first_y);
 
 #endif

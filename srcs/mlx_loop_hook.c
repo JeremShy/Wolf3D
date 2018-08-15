@@ -14,103 +14,51 @@ static void	get_ray(t_data *data, t_vec3 ray_pos, t_vec3 ray_dir, int x)
 	// ft_vec3_print(data->cam_dir);
 }
 
-static void	init_step_and_side_dist(t_data *data, t_vec3 step, t_vec3 side_dist)
-{
-	int	mapx = (int)data->actual_ray_pos[0];
-	int	mapy = (int)data->actual_ray_pos[1];
-	if (data->actual_ray_dir[0] < 0) // Rayon vers la gauche
-	{
-		step[0] = -1;
-		side_dist[0] = (data->actual_ray_pos[0] - mapx) * data->actual_delta_dist[0];
-	}
-	else
-	{
-		step[0] = 1;
-		side_dist[0] = (mapx + 1.0 - data->actual_ray_pos[0]) * data->actual_delta_dist[0];
-	}
-		if (data->actual_ray_dir[1] < 0) // Rayon vers le haut
-	{
-		step[1] = -1;
-		side_dist[1] = (data->actual_ray_pos[1] - mapy) * data->actual_delta_dist[1];
-	}
-	else // Rayon vers le bas
-	{
-		step[1] = 1;
-		side_dist[1] = (mapy + 1.0 - data->actual_ray_pos[1]) * data->actual_delta_dist[1];
-	}
-}
-
-static void get_first_x(t_data *data, t_vec3 ray_pos, t_vec3 ray_dir, t_hit_info first_x)
-{
-	int	map_pos[2];
-	t_vec3 first_inter;
-	double yb;
-	double ab;
-	double yd;
-	double bd;
-	t_vec3 delta_x;
-	t_vec3 actual_pos;
-
-	map_pos[0] = (int)ray_pos[0];
-	map_pos[1] = (int)ray_pos[1];
-
-	printf("ray_pos : %f - %f\n", ray_pos[0], ray_pos[1]);
-	printf("ray_dir : %f - %f\n", ray_dir[0], ray_dir[1]);
-
-	yb = ray_dir[1] > 0. ? (int)(ray_pos[1]) + 1 : ray_pos[1];
-	ab = (yb - ray_pos[1]) / ray_dir[1];
-	ft_vec3_init(first_inter, (double[]){
-		ab * ray_dir[0] + ray_pos[0],
-		ab * ray_dir[1] + ray_pos[1],
-		0.
-	});
-	printf("B : \n");
-	ft_vec3_print(first_inter);
-	yd = ray_dir[1] > 0. ? (int)first_inter[1] + 1 : (int)first_inter[1] - 1;
-	bd = (yd - first_inter[1]) / ray_dir[1];
-	ft_vec3_init(delta_x, (double[]){
-		(yd - first_inter[1]),
-		ray_dir[0] * bd,
-		0});
-	printf("delta_dirst :\n");
-	ft_vec3_print(delta_x);
-	ft_vec3_copy(actual_pos, first_inter);
-	first_x.error = 0;
-	while (1)
-	{
-		if (data->map[(int)actual_pos[1]][(int)actual_pos[0]] != 0)
-		{
-			ft_vec3_copy(first_x.collision_pos, actual_pos);
-			printf("COLLISION ON %f - %f\n", first_x.collision_pos[0], first_x.collision_pos[1]);
-			first_x.side = 1;
-			return ;
-		}
-		ft_vec3_add(actual_pos, actual_pos, delta_x);
-		if ((int)actual_pos[0] >= data->size_y || (int)actual_pos[1] >= data->size_x)
-		{
-			first_x.error = 1;
-			return ;
-		}
-	}
-}
-
-
 static void	get_hit(t_data *data, t_vec3 ray_pos, t_vec3 ray_dir, t_hit_info *ret)
 {
 	t_hit_info	first_x;
+	t_hit_info	first_y;
 
 	ft_bzero(&first_x, sizeof(t_hit_info));
-	get_first_x(data, ray_pos, ray_dir, first_x);
-	if (first_x.error)
+	get_first_x(data, ray_pos, ray_dir, &first_x);
+	if (first_x.error != 1)
 	{
-		printf("no collision on x\n");
+		printf("First x intersection : %d - %d\n", (int)first_x.collision_pos[0], (int)first_x.collision_pos[1]);
+		printf("Ray pos : %f - %f\n", ray_pos[0], ray_pos[1]);
+		first_x.corrected_dist = sqrt((first_x.collision_pos[0] - ray_pos[0]) * (first_x.collision_pos[0] - ray_pos[0]) + (first_x.collision_pos[1] - ray_pos[1]) * (first_x.collision_pos[1] - ray_pos[1]));
+	}
+	get_first_y(data, ray_pos, ray_dir, &first_y);
+	if (first_x.error == 1 && first_y.error == 1)
+	{
+		printf("Error 32\n");
 		exit(1);
-		*ret = first_x;
 		return ;
 	}
-	printf("First x intersection : %d - %d\n", (int)first_x.collision_pos[0], (int)first_x.collision_pos[1]);
-	first_x.corrected_dist = sqrt((first_x.collision_pos[0] - ray_pos[0]) * (first_x.collision_pos[0] - ray_pos[0]) + (first_x.collision_pos[1] - ray_pos[1]) * (first_x.collision_pos[1] - ray_pos[1]));
-	*ret = first_x;
+	if (first_y.error != 1)
+	{
+		printf("First y intersection : %f - %f\n", first_y.collision_pos[0], first_y.collision_pos[1]);
+		printf("Ray pos : %f - %f\n", ray_pos[0], ray_pos[1]);
+		first_y.corrected_dist = sqrt((first_y.collision_pos[0] - ray_pos[0]) * (first_y.collision_pos[0] - ray_pos[0]) + (first_y.collision_pos[1] - ray_pos[1]) * (first_y.collision_pos[1] - ray_pos[1]));
+	}
+	else
+	{
+		printf("Y error !\n");
+	}
+
+	if (first_x.error == 0 && first_y.error == 1)
+	{
+		*ret = first_x;
+	}
+	else if (first_x.error == 1 && first_y.error == 0)
+	{
+		*ret = first_y;
+	}
+	else
+	{
+		printf("x distance : %f - y distance : %f\n", first_x.corrected_dist, first_y.corrected_dist);
+		*ret = first_x.corrected_dist <= first_y.corrected_dist ? first_x : first_y;
+	}
+
 	/*
 
 	if (side == 0)

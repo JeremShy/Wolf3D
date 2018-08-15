@@ -7,7 +7,9 @@ SRC_NAME = main.c \
 			misc_hooks.c \
 			parse.c \
 			movement.c \
-			debug.c
+			debug.c \
+			get_first_x.c \
+			get_first_y.c
 
 OBJ_PATH = ./obj/
 
