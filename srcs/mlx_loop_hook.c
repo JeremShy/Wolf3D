@@ -23,7 +23,7 @@ static void	get_hit(t_data *data, t_vec3 ray_pos, t_vec3 ray_dir, t_hit_info *re
 	get_first_x(data, ray_pos, ray_dir, &first_x);
 	if (first_x.error != 1)
 	{
-		printf("First x intersection : %d - %d\n", (int)first_x.collision_pos[0], (int)first_x.collision_pos[1]);
+		printf("First x intersection : %f - %f\n", first_x.collision_pos[0], first_x.collision_pos[1]);
 		printf("Ray pos : %f - %f\n", ray_pos[0], ray_pos[1]);
 		first_x.corrected_dist = sqrt((first_x.collision_pos[0] - ray_pos[0]) * (first_x.collision_pos[0] - ray_pos[0]) + (first_x.collision_pos[1] - ray_pos[1]) * (first_x.collision_pos[1] - ray_pos[1]));
 	}
@@ -56,7 +56,8 @@ static void	get_hit(t_data *data, t_vec3 ray_pos, t_vec3 ray_dir, t_hit_info *re
 	else
 	{
 		printf("x distance : %f - y distance : %f\n", first_x.corrected_dist, first_y.corrected_dist);
-		*ret = first_x.corrected_dist <= first_y.corrected_dist ? first_x : first_y;
+		*ret = first_x.corrected_dist < first_y.corrected_dist ? first_x : first_y;
+		// *ret = first_y;
 	}
 
 	/*
@@ -91,7 +92,7 @@ static void	draw_col(t_data *data, t_hit_info *hit, int x)
 	while (y < data->h)
 	{
 		if (y < start) // Partie haute
-			put_pixel_to_image(data, 0x0000aa, x, y);
+			put_pixel_to_image(data, 0x0000AA, x, y);
 		else if (y >= start && y <= end) // Partie mediane
 		{
 			if (hit->side == 0)
