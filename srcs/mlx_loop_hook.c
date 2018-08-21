@@ -27,6 +27,8 @@ static void	get_hit(t_data *data, t_vec3 ray_pos, t_vec3 ray_dir, t_hit_info *re
 		printf("Ray pos : %f - %f\n", ray_pos[0], ray_pos[1]);
 		first_x.corrected_dist = sqrt((first_x.collision_pos[0] - ray_pos[0]) * (first_x.collision_pos[0] - ray_pos[0]) + (first_x.collision_pos[1] - ray_pos[1]) * (first_x.collision_pos[1] - ray_pos[1]));
 	}
+	else
+		printf("X error !\n");
 	get_first_y(data, ray_pos, ray_dir, &first_y);
 	if (first_x.error == 1 && first_y.error == 1)
 	{
@@ -57,20 +59,15 @@ static void	get_hit(t_data *data, t_vec3 ray_pos, t_vec3 ray_dir, t_hit_info *re
 	{
 		printf("x distance : %f - y distance : %f\n", first_x.corrected_dist, first_y.corrected_dist);
 		*ret = first_x.corrected_dist < first_y.corrected_dist ? first_x : first_y;
-		// *ret = first_y;
 	}
 
 	t_vec3 ab;
 	t_vec3 look_dir;
-	double old_cd;
-
-	old_cd = ret->corrected_dist;
 
 	ft_vec3_init(ab, (double[]){ret->collision_pos[0] - ray_pos[0], ret->collision_pos[1] - ray_pos[1], 0});
 	ft_vec3_copy(look_dir, data->cam_dir);
 	ft_vec3_normalize(look_dir);
 	ret->corrected_dist = ft_vec3_dot(ab, look_dir);
-	printf("Corrected dist from %f to %f\n", old_cd, ret->corrected_dist);
 }
 
 static void	draw_col(t_data *data, t_hit_info *hit, int x)
