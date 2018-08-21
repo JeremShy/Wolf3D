@@ -43,7 +43,7 @@ void get_first_x(t_data *data, t_vec3 ray_pos, t_vec3 ray_dir, t_hit_info *first
 	while (1)
 	{
 		printf("Testing intersection : (%f,%f)\n", actual_pos[0], actual_pos[1]);
-		if (actual_pos[0] < 0. || actual_pos[0] >= (double)data->size_y || actual_pos[1] < 0. || actual_pos[1] >= (double)data->size_x || actual_pos[1] - 1 < 0)
+		if (actual_pos[0] < 0. || actual_pos[0] >= (double)data->size_y || actual_pos[1] < 0. || actual_pos[1] >= (double)data->size_x)
 		{
 			return ;
 		}
