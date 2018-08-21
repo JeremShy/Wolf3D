@@ -45,20 +45,19 @@ void get_first_y(t_data *data, t_vec3 ray_pos, t_vec3 ray_dir, t_hit_info *first
 	while (1)
 	{
 		printf("Testing intersection : (%f,%f)\n", actual_pos[0], actual_pos[1]);
-		if (actual_pos[0] < 0. || actual_pos[0] >= (double)data->size_y || actual_pos[1] < 0. || actual_pos[1] >= (double)data->size_x
-				|| actual_pos[0] + (ray_dir[0] < 0 ? -1 : -1) < 0. || actual_pos[0] + (ray_dir[0] < 0 ? -1 : 1) >= (double)data->size_y)
+		if (actual_pos[0] < 0. || actual_pos[0] >= (double)data->size_y || actual_pos[1] < 0. || actual_pos[1] >= (double)data->size_x || actual_pos[0] - 1 < 0.)
 		{
 			printf("Y error 2\n");;
 			return ;
 		}
-		if (   data->map[(int)actual_pos[0] + (ray_dir[0] < 0 ? -1 : 1)][(int)actual_pos[1]] != 0
-				|| data->map[(int)actual_pos[0]                            ][(int)actual_pos[1]] != 0)
+		if (   data->map[(int)actual_pos[0] - 1 ][(int)actual_pos[1]] != 0
+				|| data->map[(int)actual_pos[0]			][(int)actual_pos[1]] != 0)
 		{
 			ft_vec3_copy(first_y->collision_pos, actual_pos);
 			first_y->side = 0;
 			first_y->error = 0;
-			if (data->map[(int)actual_pos[0] + (ray_dir[0] < 0 ? -1 : 1)][(int)actual_pos[1]] != 0)
-				printf("Y Wall on (%d, %d)\n", (int)actual_pos[0] + (ray_dir[0] < 0 ? -1 : 1), (int)actual_pos[1]);
+			if (data->map[(int)actual_pos[0] - 1][(int)actual_pos[1]] != 0)
+				printf("Y Wall on (%d, %d)\n", (int)actual_pos[0] - 1, (int)actual_pos[1]);
 			else
 				printf("Y Wall on (%d, %d)\n", (int)actual_pos[0], (int)actual_pos[1]);
 			return ;
