@@ -11,13 +11,22 @@ void get_first_x(t_data *data, t_vec3 ray_pos, t_vec3 ray_dir, t_hit_info *first
 	t_vec3 delta_x;
 	t_vec3 actual_pos;
 
+	first_x->error = 1;
+
 	map_pos[0] = (int)ray_pos[0];
 	map_pos[1] = (int)ray_pos[1];
+
+	if (ray_dir[1] == 0)
+	{
+		printf("X error 19\n");
+		return ;
+	}
 
 	printf("x ray_pos : %f - %f\n", ray_pos[0], ray_pos[1]);
 	printf("x ray_dir : %f - %f\n", ray_dir[0], ray_dir[1]);
 
 	yb = ray_dir[1] > 0. ? (int)(ray_pos[1]) + 1 : (int)ray_pos[1];
+
 	ab = (yb - ray_pos[1]) / ray_dir[1];
 	ft_vec3_init(first_inter, (double[]){
 		ab * ray_dir[0] + ray_pos[0],
@@ -31,19 +40,20 @@ void get_first_x(t_data *data, t_vec3 ray_pos, t_vec3 ray_dir, t_hit_info *first
 		(yd - first_inter[1]),
 		0});
 	ft_vec3_copy(actual_pos, first_inter);
-	first_x->error = 0;
 	while (1)
 	{
 		printf("Testing intersection : (%f,%f)\n", actual_pos[0], actual_pos[1]);
-		if (actual_pos[0] < 0 || (int)actual_pos[0] >= data->size_y || actual_pos[1] < 0 || (int)actual_pos[1] >= data->size_x)
+		if (actual_pos[0] < 0. || actual_pos[0] >= (double)data->size_y || actual_pos[1] < 0. || actual_pos[1] >= (double)data->size_x
+				|| actual_pos[1] + (ray_dir[1] < 0 ? -1 : 1) < 0 || actual_pos[1] + (ray_dir[1] < 0 ? -1 : 1) >= (double)data->size_x)
 		{
-			first_x->error = 1;
 			return ;
 		}
-		if (data->map[(int)actual_pos[0]][(int)actual_pos[1]] != 0)
+		if (data->map[(int)actual_pos[0]][(int)actual_pos[1]] != 0
+			|| data->map[(int)actual_pos[0]][(int)actual_pos[1] + (ray_dir[1] < 0. ? -1 : 1)] != 0)
 		{
 			ft_vec3_copy(first_x->collision_pos, actual_pos);
 			first_x->side = 1;
+			first_x->error = 0;
 			return ;
 		}
 		ft_vec3_add(actual_pos, actual_pos, delta_x);
