@@ -8,6 +8,7 @@
 
 # define WIN_SIZE 512
 # define MOVEMENT_SPEED .1f
+# define ROTATE_SPEED .1f // En radian
 
 typedef struct	s_data {
 	void		*mlx;

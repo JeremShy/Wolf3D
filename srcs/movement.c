@@ -9,6 +9,27 @@
 		the player has to move of {0, -MOVEMENT_SPEED}
 */
 
+void rotate(t_data *data)
+{
+	if (data->rotating)
+	{
+		printf("ROTATING OF %f\n", data->actual_rotation_speed);
+
+		ft_vec3_init(data->cam_dir, (double[]){
+			data->cam_dir[0] * cos(data->actual_rotation_speed) - data->cam_dir[1] * sin(data->actual_rotation_speed),
+			data->cam_dir[0] * sin(data->actual_rotation_speed) + data->cam_dir[1] * cos(data->actual_rotation_speed),
+			0
+		});
+
+		ft_vec3_init(data->cam_plane, (double[]){
+			data->cam_plane[0] * cos(data->actual_rotation_speed) - data->cam_plane[1] * sin(data->actual_rotation_speed),
+			data->cam_plane[0] * sin(data->actual_rotation_speed) + data->cam_plane[1] * cos(data->actual_rotation_speed),
+			0
+		});
+
+	}
+}
+
 void	refresh_player(t_data *data)
 {
 	//TODO : Move
@@ -43,6 +64,7 @@ void	refresh_player(t_data *data)
 	if (next_tile != 0) // Collision
 		return ;
 	ft_vec3_copy(data->cam_pos, next_pos);
+	rotate(data);
 	sync_map_squares(data);
 	printf("player pos : \n");
 	ft_vec3_print(data->cam_pos);
