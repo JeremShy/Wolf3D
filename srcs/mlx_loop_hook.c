@@ -60,15 +60,17 @@ static void	get_hit(t_data *data, t_vec3 ray_pos, t_vec3 ray_dir, t_hit_info *re
 		// *ret = first_y;
 	}
 
-	/*
+	t_vec3 ab;
+	t_vec3 look_dir;
+	double old_cd;
 
-	if (side == 0)
-		ret->corrected_dist = (map_pos[0] - ray_pos[0] + (int)(1 - (int)data->actual_step[0]) / 2) / ray_dir[0];
-		// ret->corrected_dist = side_dist[0];
-	else
-		// ret->corrected_dist = side_dist[1];
-		ret->corrected_dist = (map_pos[1] - ray_pos[1] + (1 - (int)data->actual_step[1]) / 2) / ray_dir[1];
-		*/
+	old_cd = ret->corrected_dist;
+
+	ft_vec3_init(ab, (double[]){ret->collision_pos[0] - ray_pos[0], ret->collision_pos[1] - ray_pos[1], 0});
+	ft_vec3_copy(look_dir, data->cam_dir);
+	ft_vec3_normalize(look_dir);
+	ret->corrected_dist = ft_vec3_dot(ab, look_dir);
+	printf("Corrected dist from %f to %f\n", old_cd, ret->corrected_dist);
 }
 
 static void	draw_col(t_data *data, t_hit_info *hit, int x)
