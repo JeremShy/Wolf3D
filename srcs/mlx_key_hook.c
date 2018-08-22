@@ -11,23 +11,23 @@ int	key_press_hook(int keycode, void *data_void)
 		free_dtab(data->map, data->size_y);
 		free_mlx_and_exit(data);
 	}
-	if (keycode == 13 || keycode == 126) // W
+	if (keycode == 13) // W
 		data->going_front = 1;
-	else if (keycode == 1 || keycode == 125) // S
+	else if (keycode == 1) // S
 		data->going_back = 1;
-	else if (keycode == 0 || keycode == 123) // A
-	{
-		data->rotating = 1;
-		data->actual_rotation_speed = -1 * data->global_rotation_speed;
-	}
-	else if (keycode == 2 || keycode == 124) // D
+	else if (keycode == 123) // A
 	{
 		data->rotating = 1;
 		data->actual_rotation_speed = data->global_rotation_speed;
 	}
-	else if (keycode == 12) // Q
+	else if (keycode == 124) // D
+	{
+		data->rotating = 1;
+		data->actual_rotation_speed = -1 * data->global_rotation_speed;
+	}
+	else if (keycode == 0) // Q
 		data->going_left = 1;
-	else if (keycode == 14) // E
+	else if (keycode == 2) // E
 		data->going_right = 1;
 	return (1);
 }
@@ -38,17 +38,17 @@ int	key_release_hook(int keycode, void *data_void)
 
 	data = (t_data*)data_void;
 	ft_printf("released key : %d\n", keycode);
-	if (keycode == 13 || keycode == 126) // W
+	if (keycode == 13) // W
 		data->going_front = 0;
-	else if (keycode == 1 || keycode == 125) // S
+	else if (keycode == 1) // S
 		data->going_back = 0;
-	else if (keycode == 0 || keycode == 123) // A
+	else if (keycode == 123) // A
 		data->rotating = 0;
-	else if (keycode == 2 || keycode == 124) // D
+	else if (keycode == 124) // D
 		data->rotating = 0;
-	else if (keycode == 12) // Q
+	else if (keycode == 0) // Q
 		data->going_left = 0;
-	else if (keycode == 14) // E
+	else if (keycode == 2) // E
 		data->going_right = 0;
 	return (1);
 }
