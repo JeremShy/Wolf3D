@@ -53,10 +53,11 @@ void get_first_x(t_data *data, t_vec3 ray_pos, t_vec3 ray_dir, t_hit_info *first
 			ft_vec3_copy(first_x->collision_pos, actual_pos);
 			first_x->side = 1;
 			first_x->error = 0;
-			// if (actual_pos[1] - 1 >= 0 && data->map[(int)actual_pos[0]][(int)actual_pos[1] - 1] != 0)
-				// printf("X Wall on (%d, %d)\n", (int)actual_pos[0], (int)actual_pos[1] - 1);
-			// else
-				// printf("X Wall on (%d, %d)\n", (int)actual_pos[0], (int)actual_pos[1]);
+			if (actual_pos[1] - 1 >= 0 && data->map[(int)actual_pos[0]][(int)actual_pos[1] - 1] != 0)
+				ft_memcpy(first_x->collided_wall, (int[2]){(int)actual_pos[0], (int)actual_pos[1] - 1}, sizeof(int) * 2);
+			else
+				ft_memcpy(first_x->collided_wall, (int[2]){(int)actual_pos[0], (int)actual_pos[1]}, sizeof(int) * 2);
+			printf("x : [%d,%d]\n", first_x->collided_wall[0], first_x->collided_wall[1]);
 			return ;
 		}
 		ft_vec3_add(actual_pos, actual_pos, delta_x);

@@ -54,5 +54,4 @@ double	ft_vec3_dot(const t_vec3 u, const t_vec3 v);
 double	ft_vec3_get_magnitude(const t_vec3 vector);
 void	ft_vec3_normalize(t_vec3 vector);
 
-
 #endif

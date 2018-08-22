@@ -22,13 +22,17 @@ int main(int ac, char **av)
 	clear_image(&data);
 	mlx_put_image_to_window(data.mlx, data.win, data.img, 0, 0);
 
+	data.textures[WOOD_TEXTURE] = mlx_xpm_file_to_image(data.mlx, "textures/wood.xpm", &data.textures_size[WOOD_TEXTURE][0], &data.textures_size[WOOD_TEXTURE][1]);
+	printf("%p - %d - %d\n", data.textures[WOOD_TEXTURE], data.textures_size[WOOD_TEXTURE][0], data.textures_size[WOOD_TEXTURE][1]);
+	data.textures_addr[0] = mlx_get_data_addr(data.textures[WOOD_TEXTURE], &(data.textures_bpp[WOOD_TEXTURE]), &(data.textures_line_size[WOOD_TEXTURE]), &(data.textures_endian[WOOD_TEXTURE]));
+
 	data.global_rotation_speed = 0.2;
 	ft_vec3_init(data.cam_pos, (double[]){1.7, 9.1, 0});
 	sync_map_squares(&data);
 	print_map(&data);
 
 	ft_vec3_init(data.cam_dir, (double[]){0, 1, 0});
-	ft_vec3_init(data.cam_plane, (double[]){1, 0, 0});
+	ft_vec3_init(data.cam_plane, (double[]){0.5, 0, 0});
 	data.w = WIN_SIZE;
 	data.h = WIN_SIZE;
 	data.must_refresh = 1;

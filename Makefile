@@ -9,7 +9,8 @@ SRC_NAME = main.c \
 			movement.c \
 			debug.c \
 			get_first_x.c \
-			get_first_y.c
+			get_first_y.c \
+			draw.c
 
 OBJ_PATH = ./obj/
 

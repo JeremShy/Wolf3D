@@ -23,43 +23,25 @@ static void	get_hit(t_data *data, t_vec3 ray_pos, t_vec3 ray_dir, t_hit_info *re
 	get_first_x(data, ray_pos, ray_dir, &first_x);
 	if (first_x.error != 1)
 	{
-		// printf("First x intersection : %f - %f\n", first_x.collision_pos[0], first_x.collision_pos[1]);
-		// printf("Ray pos : %f - %f\n", ray_pos[0], ray_pos[1]);
 		first_x.corrected_dist = sqrt((first_x.collision_pos[0] - ray_pos[0]) * (first_x.collision_pos[0] - ray_pos[0]) + (first_x.collision_pos[1] - ray_pos[1]) * (first_x.collision_pos[1] - ray_pos[1]));
 	}
-	// else
-		// printf("X error !\n");
 	get_first_y(data, ray_pos, ray_dir, &first_y);
 	if (first_x.error == 1 && first_y.error == 1)
 	{
-		// printf("Error 32\n");
 		exit(1);
 		return ;
 	}
 	if (first_y.error != 1)
 	{
-		// printf("First y intersection : %f - %f\n", first_y.collision_pos[0], first_y.collision_pos[1]);
-		// printf("Ray pos : %f - %f\n", ray_pos[0], ray_pos[1]);
 		first_y.corrected_dist = sqrt((first_y.collision_pos[0] - ray_pos[0]) * (first_y.collision_pos[0] - ray_pos[0]) + (first_y.collision_pos[1] - ray_pos[1]) * (first_y.collision_pos[1] - ray_pos[1]));
-	}
-	else
-	{
-		// printf("Y error !\n");
 	}
 
 	if (first_x.error == 0 && first_y.error == 1)
-	{
 		*ret = first_x;
-	}
 	else if (first_x.error == 1 && first_y.error == 0)
-	{
 		*ret = first_y;
-	}
 	else
-	{
-		// printf("x distance : %f - y distance : %f\n", first_x.corrected_dist, first_y.corrected_dist);
 		*ret = first_x.corrected_dist < first_y.corrected_dist ? first_x : first_y;
-	}
 
 	t_vec3 ab;
 	t_vec3 look_dir;
@@ -68,41 +50,6 @@ static void	get_hit(t_data *data, t_vec3 ray_pos, t_vec3 ray_dir, t_hit_info *re
 	ft_vec3_copy(look_dir, data->cam_dir);
 	ft_vec3_normalize(look_dir);
 	ret->corrected_dist = ft_vec3_dot(ab, look_dir);
-}
-
-static void	draw_col(t_data *data, t_hit_info *hit, int x)
-{
-	int	height;
-	int	start;
-	int	end;
-	int	y;
-
-	height = (int)fabs((data->h / hit->corrected_dist));
-	// printf("corrected_distance : %f\n", hit->corrected_dist);
-	// printf("Height : %d\n", height);
-	start = (int)(-1. * height / 2. + data->h / 2.);
-	end = (int)(height / 2. + data->h / 2.);
-
-	if (start < 0)
-		start = 0;
-	if (end >= data->h)
-		end = data->h - 1;
-	y = 0;
-	while (y < data->h)
-	{
-		if (y < start) // Partie haute
-			put_pixel_to_image(data, 0x0000AA, x, y);
-		else if (y >= start && y <= end) // Partie mediane
-		{
-			if (hit->side == 0)
-				put_pixel_to_image(data, 0xFFFFFF, x, y);
-			else
-				put_pixel_to_image(data, 0xAA0000, x, y);
-		}
-		else // Partie basse
-			put_pixel_to_image(data, 0xAAAAAA, x, y);
-		y++;
-	}
 }
 
 static void	render(t_data *data)

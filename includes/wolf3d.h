@@ -10,11 +10,23 @@
 # define MOVEMENT_SPEED .1f
 # define ROTATE_SPEED .1f // En radian
 
+# define TEXTURE_NBR 1
+
+# define WOOD_TEXTURE 0
+
 typedef struct	s_data {
 	void		*mlx;
 	void		*win;
 	void		*img;
 	char		*addr;
+
+	void		*textures[TEXTURE_NBR];
+	int		textures_size[TEXTURE_NBR][2];
+	char		*textures_addr[TEXTURE_NBR];
+
+	int			textures_bpp[TEXTURE_NBR];
+	int			textures_line_size[TEXTURE_NBR];
+	int			textures_endian[TEXTURE_NBR];
 	const char	*av;
 
 	int			size_line;
@@ -51,6 +63,8 @@ typedef struct	s_data {
 	t_vec3		actual_delta_dist;
 	t_vec3		actual_step;
 	t_vec3		actual_side_dist;
+
+
 }				t_data;
 
 typedef struct	s_hit_info {
@@ -58,6 +72,7 @@ typedef struct	s_hit_info {
 		t_vec3	collision_pos;
 		double	corrected_dist;
 		int8_t	error;
+		int			collided_wall[2];
 }				t_hit_info;
 
 int		init_the_mlx(t_data *data);
@@ -85,5 +100,7 @@ void	refresh_player(t_data *data);
 
 void get_first_x(t_data *data, t_vec3 ray_pos, t_vec3 ray_dir, t_hit_info *first_x);
 void get_first_y(t_data *data, t_vec3 ray_pos, t_vec3 ray_dir, t_hit_info *first_y);
+
+void	draw_col(t_data *data, t_hit_info *hit, int x);
 
 #endif
