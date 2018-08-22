@@ -31,8 +31,8 @@ int main(int ac, char **av)
 	sync_map_squares(&data);
 	print_map(&data);
 
-	ft_vec3_init(data.cam_dir, (double[]){0, 1, 0});
-	ft_vec3_init(data.cam_plane, (double[]){0.5, 0, 0});
+	ft_vec3_init(data.cam_dir, (double[]){-1, 0, 0});
+	ft_vec3_init(data.cam_plane, (double[]){0, 1, 0});
 	data.w = WIN_SIZE;
 	data.h = WIN_SIZE;
 	data.must_refresh = 1;
