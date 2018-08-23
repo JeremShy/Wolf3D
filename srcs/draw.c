@@ -2,14 +2,25 @@
 
 int		get_texture_nbr(t_data *data, t_hit_info *hit)
 {
-	if (data->map[hit->collided_wall[0]][hit->collided_wall[1]] == 1)
-		return (-1);
-	else if (data->map[hit->collided_wall[0]][hit->collided_wall[1]] == 2)
-		return (0);
-	else if (data->map[hit->collided_wall[0]][hit->collided_wall[1]] == 3)
-		return (1);
+	int	nbr;
+
+	nbr = data->map[hit->collided_wall[0]][hit->collided_wall[1]];
+
+	if (nbr == 1)
+		return (WOOD_TEXTURE);
+	else if (nbr != 4)
+		return (nbr - 2);
 	else
-		return (2);
+	{
+		if (hit->orientation == NORTH)
+			return TWILIGHT_TEXTURE;
+		else if (hit->orientation == SOUTH)
+			return RDASH_TEXTURE;
+		else if (hit->orientation == WEST)
+			return WOOD_TEXTURE;
+		else
+			return STONE_TEXTURE;
+	}
 }
 
 int		get_color(t_data *data, t_hit_info *hit, int y, int real_start, int real_end)
@@ -21,13 +32,17 @@ int		get_color(t_data *data, t_hit_info *hit, int y, int real_start, int real_en
 	int			place_y;
 
 	texture_nbr = get_texture_nbr(data, hit);
-	if (texture_nbr == -1)
+	if (texture_nbr < 0 || texture_nbr > TEXTURE_NBR)
 	{
-		if (hit->side == 0)
+		if (hit->orientation == NORTH)
 			ret = 0xFFFFFF;
-		else
+		else if (hit->orientation == WEST)
 			ret = 0xAA0000;
-			return ret;
+		else if (hit->orientation == SOUTH)
+			ret = 0xAAAA00;
+		else
+			ret = 0xAA00AA;
+		return ret;
 	}
 	if (hit->side == 0)
 		place = hit->collision_pos[1] - (int)hit->collision_pos[1];
@@ -49,8 +64,6 @@ void	draw_col(t_data *data, t_hit_info *hit, int x)
 	int	start;
 	int	end;
 	int	y;
-	int	full_color;
-	int	wall_color;
 	int real_start;
 	int	real_end;
 
@@ -64,13 +77,6 @@ void	draw_col(t_data *data, t_hit_info *hit, int x)
 	if (end >= data->h)
 		end = data->h - 1;
 
-	if (data->map[hit->collided_wall[0]][hit->collided_wall[1]] != 1)
-		full_color = 0;
-	else
-	{
-		full_color = 1;
-		wall_color = get_color(data, hit, 0, real_start, real_end);
-	}
 	y = 0;
 	while (y < data->h)
 	{
@@ -78,10 +84,7 @@ void	draw_col(t_data *data, t_hit_info *hit, int x)
 			put_pixel_to_image(data, 0x0000AA, x, y);
 		else if (y >= start && y <= end) // Partie mediane
 		{
-			if (full_color)
-				put_pixel_to_image(data, wall_color, x, y);
-			else
-				put_pixel_to_image(data, get_color(data, hit, y, real_start, real_end), x, y);
+			put_pixel_to_image(data, get_color(data, hit, y, real_start, real_end), x, y);
 		}
 		else // Partie basse
 			put_pixel_to_image(data, 0xAAAAAA, x, y);

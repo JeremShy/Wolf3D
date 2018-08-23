@@ -1,5 +1,13 @@
 #include <wolf3d.h>
 
+void load_texture(t_data *data, int nbr, char *file)
+{
+		data->textures[nbr] = mlx_xpm_file_to_image(data->mlx, file, &data->textures_size[nbr][0], &data->textures_size[nbr][1]);
+		printf("%p - %d - %d\n", data->textures[nbr], data->textures_size[nbr][0], data->textures_size[nbr][1]);
+		data->textures_addr[nbr] = mlx_get_data_addr(data->textures[nbr], &(data->textures_bpp[nbr]), &(data->textures_line_size[nbr]), &(data->textures_endian[nbr]));
+}
+
+
 int main(int ac, char **av)
 {
 	t_data	data;
@@ -22,22 +30,18 @@ int main(int ac, char **av)
 	clear_image(&data);
 	mlx_put_image_to_window(data.mlx, data.win, data.img, 0, 0);
 
-	data.textures[WOOD_TEXTURE] = mlx_xpm_file_to_image(data.mlx, "textures/wood.xpm", &data.textures_size[WOOD_TEXTURE][0], &data.textures_size[WOOD_TEXTURE][1]);
-	printf("%p - %d - %d\n", data.textures[WOOD_TEXTURE], data.textures_size[WOOD_TEXTURE][0], data.textures_size[WOOD_TEXTURE][1]);
-	data.textures_addr[WOOD_TEXTURE] = mlx_get_data_addr(data.textures[WOOD_TEXTURE], &(data.textures_bpp[WOOD_TEXTURE]), &(data.textures_line_size[WOOD_TEXTURE]), &(data.textures_endian[WOOD_TEXTURE]));
+	load_texture(&data, WOOD_TEXTURE, "textures/wood.xpm");
+	load_texture(&data, STONE_TEXTURE, "textures/stone.xpm");
+	load_texture(&data, RDASH_TEXTURE, "textures/rdash.xpm");
+	load_texture(&data, TWILIGHT_TEXTURE, "textures/twilight.xpm");
 
-	data.textures[STONE_TEXTURE] = mlx_xpm_file_to_image(data.mlx, "textures/stone.xpm", &data.textures_size[STONE_TEXTURE][0], &data.textures_size[STONE_TEXTURE][1]);
-	printf("%p - %d - %d\n", data.textures[STONE_TEXTURE], data.textures_size[STONE_TEXTURE][0], data.textures_size[STONE_TEXTURE][1]);
-	data.textures_addr[STONE_TEXTURE] = mlx_get_data_addr(data.textures[STONE_TEXTURE], &(data.textures_bpp[STONE_TEXTURE]), &(data.textures_line_size[STONE_TEXTURE]), &(data.textures_endian[STONE_TEXTURE]));
-
-
-	data.global_rotation_speed = 0.2;
+	data.global_rotation_speed = ROTATE_SPEED;
 	ft_vec3_init(data.cam_pos, (double[]){1.7, 9.1, 0});
 	sync_map_squares(&data);
 	print_map(&data);
 
 	ft_vec3_init(data.cam_dir, (double[]){0, 1, 0});
-	ft_vec3_init(data.cam_plane, (double[]){1, 0, 0});
+	ft_vec3_init(data.cam_plane, (double[]){.5, 0, 0});
 	data.w = WIN_SIZE;
 	data.h = WIN_SIZE;
 	data.must_refresh = 1;

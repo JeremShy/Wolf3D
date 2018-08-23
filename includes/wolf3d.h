@@ -8,12 +8,21 @@
 
 # define WIN_SIZE 512
 # define MOVEMENT_SPEED .1f
-# define ROTATE_SPEED .1f // En radian
+# define ROTATE_SPEED .1f
 
-# define TEXTURE_NBR 2
+# define TEXTURE_NBR 4
 
 # define WOOD_TEXTURE 0
 # define STONE_TEXTURE 1
+# define RDASH_TEXTURE 2
+# define TWILIGHT_TEXTURE 3
+
+typedef enum e_orientation {
+	NORTH,
+	SOUTH,
+	WEST,
+	EAST
+}						t_orientation;
 
 typedef struct	s_data {
 	void		*mlx;
@@ -74,6 +83,7 @@ typedef struct	s_hit_info {
 		double	corrected_dist;
 		int8_t	error;
 		int			collided_wall[2];
+		t_orientation	orientation;
 }				t_hit_info;
 
 int		init_the_mlx(t_data *data);

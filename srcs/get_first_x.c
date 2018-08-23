@@ -54,9 +54,15 @@ void get_first_x(t_data *data, t_vec3 ray_pos, t_vec3 ray_dir, t_hit_info *first
 			first_x->side = 1;
 			first_x->error = 0;
 			if (actual_pos[1] - 1 >= 0 && data->map[(int)actual_pos[0]][(int)actual_pos[1] - 1] != 0)
+			{
+				first_x->orientation = NORTH;
 				ft_memcpy(first_x->collided_wall, (int[2]){(int)actual_pos[0], (int)actual_pos[1] - 1}, sizeof(int) * 2);
+			}
 			else
+			{
+				first_x->orientation = SOUTH;
 				ft_memcpy(first_x->collided_wall, (int[2]){(int)actual_pos[0], (int)actual_pos[1]}, sizeof(int) * 2);
+			}
 			printf("x : [%d,%d]\n", first_x->collided_wall[0], first_x->collided_wall[1]);
 			return ;
 		}
