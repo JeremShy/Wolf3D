@@ -10,9 +10,10 @@
 # define MOVEMENT_SPEED .1f
 # define ROTATE_SPEED .1f // En radian
 
-# define TEXTURE_NBR 1
+# define TEXTURE_NBR 2
 
 # define WOOD_TEXTURE 0
+# define STONE_TEXTURE 1
 
 typedef struct	s_data {
 	void		*mlx;
