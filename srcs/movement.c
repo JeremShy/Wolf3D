@@ -21,6 +21,28 @@ void rotate(t_data *data)
 	}
 }
 
+int slide(t_data *data, t_vec3 movement)
+{
+	t_vec3			next_x;
+	t_vec3			next_y;
+	int8_t			tile_x;
+	int8_t			tile_y;
+
+	ft_vec3_init(next_x, (double[]){data->cam_pos[0] + movement[0], data->cam_pos[1], 0});
+	ft_vec3_init(next_y, (double[]){data->cam_pos[0], data->cam_pos[1] + movement[1], 0});
+	tile_x = data->map[(int)next_x[0]][(int)next_x[1]];
+	tile_y = data->map[(int)next_y[0]][(int)next_y[1]];
+	printf("{%d,%d:%d} {%d,%d:%d}\n", (int)next_x[0], (int)next_x[1], tile_x, (int)next_y[0], (int)next_y[1], tile_y);
+	if (tile_x == 0 && tile_y != 0)
+		ft_vec3_copy(data->cam_pos, next_x);
+	else if (tile_y == 0 && tile_x != 0)
+		ft_vec3_copy(data->cam_pos, next_y);
+	else
+		return (0);
+	printf("ret 1\n");
+	return (1);
+}
+
 // The player has to move depending of his direction
 /*
 	if direction is {-1, 0} and the player is going front
@@ -29,7 +51,6 @@ void rotate(t_data *data)
 	if (direction is {-1, 0}) and the player is going going_left
 		the player has to move of {0, -MOVEMENT_SPEED}
 */
-
 
 void	refresh_player(t_data *data)
 {
@@ -63,10 +84,11 @@ void	refresh_player(t_data *data)
 
 	if (next_tile != 0) // Collision
 	{
-
-		return ;
+		if (!slide(data, movement))
+			return ;
 	}
-	ft_vec3_copy(data->cam_pos, next_pos);
+	else
+		ft_vec3_copy(data->cam_pos, next_pos);
 	rotate(data);
 	sync_map_squares(data);
 	printf("player pos : \n");
