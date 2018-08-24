@@ -2,19 +2,22 @@
 
 void rotate(t_data *data)
 {
-	if (data->rotating)
+	float speed;
+
+	if (data->rotating_left || data->rotating_right)
 	{
-		printf("ROTATING OF %f\n", data->actual_rotation_speed);
+		speed = (data->rotating_left ? 1 : -1) * ROTATE_SPEED;
+		printf("ROTATING OF %f\n", speed);
 
 		ft_vec3_init(data->cam_dir, (double[]){
-			data->cam_dir[0] * cos(data->actual_rotation_speed) - data->cam_dir[1] * sin(data->actual_rotation_speed),
-			data->cam_dir[0] * sin(data->actual_rotation_speed) + data->cam_dir[1] * cos(data->actual_rotation_speed),
+			data->cam_dir[0] * cos(speed) - data->cam_dir[1] * sin(speed),
+			data->cam_dir[0] * sin(speed) + data->cam_dir[1] * cos(speed),
 			0
 		});
 
 		ft_vec3_init(data->cam_plane, (double[]){
-			data->cam_plane[0] * cos(data->actual_rotation_speed) - data->cam_plane[1] * sin(data->actual_rotation_speed),
-			data->cam_plane[0] * sin(data->actual_rotation_speed) + data->cam_plane[1] * cos(data->actual_rotation_speed),
+			data->cam_plane[0] * cos(speed) - data->cam_plane[1] * sin(speed),
+			data->cam_plane[0] * sin(speed) + data->cam_plane[1] * cos(speed),
 			0
 		});
 

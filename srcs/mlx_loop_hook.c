@@ -76,7 +76,7 @@ int	loop_hook(void *data_void)
 
 	data = (t_data*)data_void;
 	if (data->must_refresh || data->going_back || data->going_front
-		|| data->going_left || data->going_right || data->rotating)
+		|| data->going_left || data->going_right || data->rotating_left || data->rotating_right)
 	{
 		clear_image(data);
 		data->must_refresh = 0;

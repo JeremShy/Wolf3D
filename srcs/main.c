@@ -35,7 +35,6 @@ int main(int ac, char **av)
 	load_texture(&data, RDASH_TEXTURE, "textures/rdash.xpm");
 	load_texture(&data, TWILIGHT_TEXTURE, "textures/twilight.xpm");
 
-	data.global_rotation_speed = ROTATE_SPEED;
 	ft_vec3_init(data.cam_pos, (double[]){1.7, 9.1, 0});
 	sync_map_squares(&data);
 	print_map(&data);

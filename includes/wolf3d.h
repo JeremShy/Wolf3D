@@ -43,8 +43,6 @@ typedef struct	s_data {
 	int			endian;
 	int			bpp;
 
-	double		global_rotation_speed;
-
 	int8_t		**map;
 	int			size_x;
 	int			size_y;
@@ -62,9 +60,8 @@ typedef struct	s_data {
 	int8_t		going_left;
 	int8_t		going_right;
 
-	int8_t		rotating;
-
-	double		actual_rotation_speed;
+	int8_t		rotating_left;
+	int8_t		rotating_right;
 
 	int8_t		must_refresh;
 
