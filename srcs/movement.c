@@ -92,7 +92,6 @@ void	refresh_player(t_data *data)
 	else
 		ft_vec3_copy(data->cam_pos, next_pos);
 	rotate(data);
-	sync_map_squares(data);
 	printf("player pos : \n");
 	ft_vec3_print(data->cam_pos);
 }
