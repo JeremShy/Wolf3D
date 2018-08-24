@@ -32,7 +32,6 @@ int slide(t_data *data, t_vec3 movement)
 	ft_vec3_init(next_y, (double[]){data->cam_pos[0], data->cam_pos[1] + movement[1], 0});
 	tile_x = data->map[(int)next_x[0]][(int)next_x[1]];
 	tile_y = data->map[(int)next_y[0]][(int)next_y[1]];
-	printf("{%d,%d:%d} {%d,%d:%d}\n", (int)next_x[0], (int)next_x[1], tile_x, (int)next_y[0], (int)next_y[1], tile_y);
 	if (tile_x == 0 && tile_y != 0)
 		ft_vec3_copy(data->cam_pos, next_x);
 	else if (tile_y == 0 && tile_x != 0)
