@@ -66,7 +66,6 @@ void get_first_y(t_data *data, t_vec3 ray_pos, t_vec3 ray_dir, t_hit_info *first
 				first_y->orientation = EAST;
 				ft_memcpy(first_y->collided_wall, (int[2]){(int)actual_pos[0], (int)actual_pos[1]}, sizeof(int) * 2);
 			}
-			printf("y : [%d,%d]\n", first_y->collided_wall[0], first_y->collided_wall[1]);
 			return ;
 		}
 		ft_vec3_add(actual_pos, actual_pos, delta_y);
