@@ -8,7 +8,7 @@
 
 # define WIN_SIZE 512
 # define MOVEMENT_SPEED .1f
-# define ROTATE_SPEED .1f
+# define ROTATE_SPEED .05f
 
 # define TEXTURE_NBR 4
 
@@ -62,6 +62,8 @@ typedef struct	s_data {
 	int8_t		rotating_left;
 	int8_t		rotating_right;
 
+	int			paused;
+
 	int8_t		must_refresh;
 
 	t_vec3		actual_ray_dir;
@@ -69,6 +71,7 @@ typedef struct	s_data {
 	t_vec3		actual_delta_dist;
 	t_vec3		actual_step;
 	t_vec3		actual_side_dist;
+
 
 
 }				t_data;
@@ -108,5 +111,6 @@ void get_first_x(t_data *data, t_vec3 ray_pos, t_vec3 ray_dir, t_hit_info *first
 void get_first_y(t_data *data, t_vec3 ray_pos, t_vec3 ray_dir, t_hit_info *first_y);
 
 void	draw_col(t_data *data, t_hit_info *hit, int x);
+void	apply_filter(t_data *data, unsigned int color, double ratio);
 
 #endif
