@@ -3,7 +3,6 @@
 void load_texture(t_data *data, int nbr, char *file)
 {
 		data->textures[nbr] = mlx_xpm_file_to_image(data->mlx, file, &data->textures_size[nbr][0], &data->textures_size[nbr][1]);
-		printf("%p - %d - %d\n", data->textures[nbr], data->textures_size[nbr][0], data->textures_size[nbr][1]);
 		data->textures_addr[nbr] = mlx_get_data_addr(data->textures[nbr], &(data->textures_bpp[nbr]), &(data->textures_line_size[nbr]), &(data->textures_endian[nbr]));
 }
 

@@ -7,7 +7,6 @@ void rotate(t_data *data)
 	if (data->rotating_left || data->rotating_right)
 	{
 		speed = (data->rotating_left ? 1 : -1) * ROTATE_SPEED;
-		printf("ROTATING OF %f\n", speed);
 
 		ft_vec3_init(data->cam_dir, (double[]){
 			data->cam_dir[0] * cos(speed) - data->cam_dir[1] * sin(speed),
@@ -41,7 +40,6 @@ int slide(t_data *data, t_vec3 movement)
 		ft_vec3_copy(data->cam_pos, next_y);
 	else
 		return (0);
-	printf("ret 1\n");
 	return (1);
 }
 
@@ -92,6 +90,5 @@ void	refresh_player(t_data *data)
 	else
 		ft_vec3_copy(data->cam_pos, next_pos);
 	rotate(data);
-	printf("player pos : \n");
 	ft_vec3_print(data->cam_pos);
 }

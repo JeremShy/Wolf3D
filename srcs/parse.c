@@ -103,24 +103,25 @@ int8_t			parse(t_data *data, const char *file)
 
 	if ((fd = open(file, O_RDONLY)) == -1)
 	{
-		ft_printf("Can't open file `%s'\n", file);
+		ft_putstr_fd("Can't open file `", 2);
+		ft_putstr_fd((char*)file, 2);
+		ft_putstr_fd("'\n", 2);
 		return (0);
 	}
 	if ((r = get_size_y(file)) == 0)
 		return (0);
-	printf("size_y = %d\n", r);
 	data->size_y = r;
 	r = get_next_line(fd, &str);
 	if (r == 0 || r == -1)
 		return return_close_free(NULL, fd, 0);
 	if (!get_size_x(data, str))
 	{
-		printf("%s: invalid first line\n", data->av);
+		ft_printf("%s: invalid first line\n", data->av);
 		return return_close_free(str, fd, 0);
 	}
 	if (!allocate_map(data))
 	{
-		printf("%s: couldn't allocate map\n", data->av);
+		ft_printf("%s: couldn't allocate map\n", data->av);
 		return (return_close_free(str, fd, 0));
 	}
 	if (!parse_line(data, 0, str))

@@ -28,7 +28,8 @@ static void	get_hit(t_data *data, t_vec3 ray_pos, t_vec3 ray_dir, t_hit_info *re
 	get_first_y(data, ray_pos, ray_dir, &first_y);
 	if (first_x.error == 1 && first_y.error == 1)
 	{
-		exit(1);
+		ft_putstr_fd("Error : A ray hit no box, does the map have a hole ?\n", 2);
+		exit(3);
 		return ;
 	}
 	if (first_y.error != 1)
@@ -78,9 +79,14 @@ int	loop_hook(void *data_void)
 	if (data->must_refresh || data->going_back || data->going_front
 		|| data->going_left || data->going_right || data->rotating_left || data->rotating_right)
 	{
-		clear_image(data);
 		data->must_refresh = 0;
-		// printf("Refreshing.\n");
+		if (data->paused == 1)
+		{
+			apply_filter(data, 0, .1);
+			mlx_put_image_to_window(data->mlx, data->win, data->img, 0, 0);
+			return (1);
+		}
+		clear_image(data);
 		refresh_player(data);
 		// printf("Player position : %f %f\n", data->cam_pos[0], data->cam_pos[1]);
 		render(data);
