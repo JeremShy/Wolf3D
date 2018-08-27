@@ -47,13 +47,13 @@ void get_first_x(t_data *data, t_vec3 ray_pos, t_vec3 ray_dir, t_hit_info *first
 		{
 			return ;
 		}
-		if (	data->map[(int)actual_pos[0]][(int)actual_pos[1]    ] != 0
-			||	(actual_pos[1] - 1 >= 0 && data->map[(int)actual_pos[0]][(int)actual_pos[1] - 1] != 0))
+		if (	data->map[(int)actual_pos[0]][(int)actual_pos[1]].num != 0
+			||	(actual_pos[1] - 1 >= 0 && data->map[(int)actual_pos[0]][(int)actual_pos[1] - 1].num != 0))
 		{
 			ft_vec3_copy(first_x->collision_pos, actual_pos);
 			first_x->side = 1;
 			first_x->error = 0;
-			if (actual_pos[1] - 1 >= 0 && data->map[(int)actual_pos[0]][(int)actual_pos[1] - 1] != 0)
+			if (actual_pos[1] - 1 >= 0 && data->map[(int)actual_pos[0]][(int)actual_pos[1] - 1].num != 0)
 			{
 				first_x->orientation = NORTH;
 				ft_memcpy(first_x->collided_wall, (int[2]){(int)actual_pos[0], (int)actual_pos[1] - 1}, sizeof(int) * 2);

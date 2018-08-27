@@ -61,12 +61,12 @@ static int8_t	allocate_map(t_data *data)
 {
 	int	i;
 
-	if ((data->map = malloc(sizeof(char*) * data->size_y)) == NULL)
+	if ((data->map = malloc(sizeof(t_map_square*) * data->size_y)) == NULL)
 		return (0);
 	i = 0;
 	while (i < data->size_y)
 	{
-		data->map[i] = malloc(sizeof(char) * data->size_x);
+		data->map[i] = malloc(sizeof(t_map_square) * data->size_x);
 		if (data->map[i] == NULL)
 			return (0);
 		i++;
@@ -84,7 +84,7 @@ static int8_t	parse_line(t_data *data, int line_number, char *str)
 		if (i == data->size_x)
 			return (0);
 		else if (ft_isdigit(str[i]))
-			data->map[line_number][i] = str[i] - '0';
+			data->map[line_number][i].num = str[i] - '0';
 		else
 			return (0);
 		i++;

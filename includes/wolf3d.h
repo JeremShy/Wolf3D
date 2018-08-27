@@ -24,6 +24,11 @@ typedef enum e_orientation {
 	EAST
 }						t_orientation;
 
+typedef struct s_map_square
+{
+	int			num;
+}				t_map_square;
+
 typedef struct	s_data {
 	void		*mlx;
 	void		*win;
@@ -43,7 +48,7 @@ typedef struct	s_data {
 	int			endian;
 	int			bpp;
 
-	int8_t		**map;
+	t_map_square	**map;
 	int			size_x;
 	int			size_y;
 

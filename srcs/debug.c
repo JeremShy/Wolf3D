@@ -22,7 +22,7 @@ void	print_map(t_data *data)
 			else if (y == (int)data->cam_pos[0] && x == (int)data->cam_pos[1])
 				ft_putchar('p');
 			else
-				ft_putchar(data->map[y][x] + '0');
+				ft_putchar(data->map[y][x].num + '0');
 			x++;
 		}
 		ft_putchar('\n');

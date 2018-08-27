@@ -44,7 +44,7 @@ int		get_texture_nbr(t_data *data, t_hit_info *hit)
 {
 	int	nbr;
 
-	nbr = data->map[hit->collided_wall[0]][hit->collided_wall[1]];
+	nbr = data->map[hit->collided_wall[0]][hit->collided_wall[1]].num;
 
 	if (nbr == 1)
 		return (WOOD_TEXTURE);
