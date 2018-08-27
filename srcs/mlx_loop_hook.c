@@ -82,7 +82,7 @@ int	loop_hook(void *data_void)
 		data->must_refresh = 0;
 		if (data->paused == 1)
 		{
-			apply_filter(data, 0, .1);
+			darken(data, .2);
 			mlx_put_image_to_window(data->mlx, data->win, data->img, 0, 0);
 			return (1);
 		}

@@ -7,30 +7,28 @@ void	color_to_array(uint pixel, int array[3])
 	array[2] = (pixel & 0xff0000) >> 16;
 }
 
-void	apply_filter(t_data *data, unsigned int filter_color, double ratio)
+void	darken(t_data *data, double ratio)
 {
 	int					x;
 	int					y;
-	uint			color;
+	int					color;
 	unsigned int		image_color;
 	int					tmp[3];
 
 	x = 0;
-	while (x < data->w)
+	while (x < WIN_SIZE)
 	{
 		y = 0;
-		while (y < data->h)
+		while (y < WIN_SIZE)
 		{
-			image_color = data->addr[y * data->size_line + x * 4];
-			image_color	+= data->addr[y * data->size_line + x * 4 + 1] << 8;
-			image_color += data->addr[y * data->size_line + x * 4 + 2] << 16;
+			image_color = data->addr[y * data->size_line + x * 4] & 0xff;
+			image_color	= image_color | ((data->addr[y * data->size_line + x * 4 + 1] << 8) & 0x00ff00 );
+			image_color = image_color | ((data->addr[y * data->size_line + x * 4 + 2] << 16) & 0xff0000 );
 
 			color_to_array(image_color, tmp);
-			printf("color : {%d, %d, %d} = %u\n", tmp[0], tmp[1], tmp[2], image_color);
-			tmp[0] = (int)(tmp[0] - (255 * .1) < 0. ? 0. : tmp[0] - (255. * .1));
-			tmp[1] = (int)(tmp[1] - (255 * .1) < 0. ? 0. : tmp[1] - (255. * .1));
-			tmp[2] = (int)(tmp[2] - (255 * .1) < 0. ? 0. : tmp[2] - (255. * .1));
-			printf("tmp : {%d, %d, %d}\n", tmp[0], tmp[1], tmp[2]);
+			tmp[0] = (int)(tmp[0] - (255 * ratio) < 0. ? 0. : tmp[0] - (255. * ratio));
+			tmp[1] = (int)(tmp[1] - (255 * ratio) < 0. ? 0. : tmp[1] - (255. * ratio));
+			tmp[2] = (int)(tmp[2] - (255 * ratio) < 0. ? 0. : tmp[2] - (255. * ratio));
 			color = (tmp[0] & 0x0000ff) | ((tmp[1] << 8) & 0x00ff00) | ((tmp[2] << 16) & 0xff0000);
 		
 			put_pixel_to_image(data, color, x, y);

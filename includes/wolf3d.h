@@ -116,6 +116,6 @@ void get_first_x(t_data *data, t_vec3 ray_pos, t_vec3 ray_dir, t_hit_info *first
 void get_first_y(t_data *data, t_vec3 ray_pos, t_vec3 ray_dir, t_hit_info *first_y);
 
 void	draw_col(t_data *data, t_hit_info *hit, int x);
-void	apply_filter(t_data *data, unsigned int color, double ratio);
+void	darken(t_data *data, double ratio);
 
 #endif

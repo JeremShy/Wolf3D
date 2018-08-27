@@ -34,6 +34,12 @@ int	key_press_hook(int keycode, void *data_void)
 		else if (keycode == 35) // P
 		{
 			data->paused = (data->paused ? 0 : 1);
+			data->going_front = 0;
+			data->going_right = 0;
+			data->going_left = 0;
+			data->going_back = 0;
+			data->rotating_right = 0;
+			data->rotating_left = 0;
 			data->must_refresh = 1;
 		}
 	}
