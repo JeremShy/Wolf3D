@@ -24,6 +24,8 @@ int main(int ac, char **av)
 		return (2);
 	}
 	ft_printf("size x : %d, size y : %d\n", data.size_x, data.size_y);
+	data.w = 512;
+	data.h = 512;
 	if (!init_the_mlx(&data))
 		return (0);
 	clear_image(&data);
@@ -39,8 +41,6 @@ int main(int ac, char **av)
 
 	ft_vec3_init(data.cam_dir, (double[]){0, 1, 0});
 	ft_vec3_init(data.cam_plane, (double[]){.5, 0, 0});
-	data.w = WIN_SIZE;
-	data.h = WIN_SIZE;
 	data.must_refresh = 1;
 
 	// mlx_key_hook(data.win, &key_hook, &data);

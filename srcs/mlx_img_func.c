@@ -32,7 +32,7 @@ void	clear_image(t_data *data)
 	size_t	i;
 
 	i = 0;
-	while (i < (size_t)(WIN_SIZE * data->size_line))
+	while (i < (size_t)(data->h * data->size_line))
 	{
 		(data->addr)[i] = 0;
 		i++;
@@ -45,10 +45,10 @@ void	fill_image(t_data *data, int color)
 	int	y;
 
 	x = 0;
-	while (x < WIN_SIZE)
+	while (x < data->w)
 	{
 		y = 0;
-		while (y < WIN_SIZE)
+		while (y < data->h)
 		{
 			put_pixel_to_image(data, color, x, y);
 			y++;

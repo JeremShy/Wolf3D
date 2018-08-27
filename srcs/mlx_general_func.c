@@ -17,11 +17,11 @@ int		init_the_mlx(t_data *data)
 	data->mlx = mlx_init();
 	if (handle_error_void(data->mlx, NULL, "Error with mlx_init"))
 		return (0);
-	data->win = mlx_new_window(data->mlx, WIN_SIZE, WIN_SIZE,
+	data->win = mlx_new_window(data->mlx, data->w, data->h,
 		"wolf3d - Rainbow Dash is best pony !");
 	if (handle_error_void(data->win, NULL, "Error with mlx_new_window"))
 		return (0);
-	data->img = mlx_new_image(data->mlx, WIN_SIZE, WIN_SIZE);
+	data->img = mlx_new_image(data->mlx, data->w, data->h);
 	if (handle_error_void(data->img, NULL, "Error with mlx_new_image"))
 		return (0);
 	data->addr = mlx_get_data_addr(data->img, &(data->bpp), &(data->size_line),

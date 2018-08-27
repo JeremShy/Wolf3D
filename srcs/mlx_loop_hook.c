@@ -84,7 +84,7 @@ int	loop_hook(void *data_void)
 		{
 			darken(data, .2);
 			mlx_put_image_to_window(data->mlx, data->win, data->img, 0, 0);
-			mlx_string_put(data->mlx, data->win, WIN_SIZE / 2, WIN_SIZE / 4, 0xff0000, "PAUSED");
+			mlx_string_put(data->mlx, data->win, data->w / 2, data->h / 4, 0xff0000, "PAUSED");
 			return (1);
 		}
 		clear_image(data);

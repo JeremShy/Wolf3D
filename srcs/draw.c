@@ -16,10 +16,10 @@ void	darken(t_data *data, double ratio)
 	int					tmp[3];
 
 	x = 0;
-	while (x < WIN_SIZE)
+	while (x < data->w)
 	{
 		y = 0;
-		while (y < WIN_SIZE)
+		while (y < data->h)
 		{
 			image_color = data->addr[y * data->size_line + x * 4] & 0xff;
 			image_color	= image_color | ((data->addr[y * data->size_line + x * 4 + 1] << 8) & 0x00ff00 );

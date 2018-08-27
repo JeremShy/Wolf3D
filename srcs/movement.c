@@ -90,5 +90,5 @@ void	refresh_player(t_data *data)
 	else
 		ft_vec3_copy(data->cam_pos, next_pos);
 	rotate(data);
-	ft_vec3_print(data->cam_pos);
+	// ft_vec3_print(data->cam_pos);
 }
