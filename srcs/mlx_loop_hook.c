@@ -74,6 +74,8 @@ static void	render(t_data *data)
 int	loop_hook(void *data_void)
 {
 	t_data	*data;
+	t_vec3	darken_from;
+	t_vec3	darken_to;
 
 	data = (t_data*)data_void;
 	if (data->must_refresh || data->going_back || data->going_front
@@ -82,15 +84,17 @@ int	loop_hook(void *data_void)
 		data->must_refresh = 0;
 		if (data->paused == 1)
 		{
-			darken(data, .2);
+			ft_vec3_init(darken_from, (double[]){0, 0, 0});
+			ft_vec3_init(darken_to, (double[]){data->w, data->h, 0});
+			darken(data, .2, darken_from, darken_to);
 			mlx_put_image_to_window(data->mlx, data->win, data->img, 0, 0);
 			mlx_string_put(data->mlx, data->win, data->w / 2, data->h / 4, 0xff0000, "PAUSED");
 			return (1);
 		}
 		clear_image(data);
 		refresh_player(data);
-		// printf("Player position : %f %f\n", data->cam_pos[0], data->cam_pos[1]);
 		render(data);
+		draw_minimap(data);
 		mlx_put_image_to_window(data->mlx, data->win, data->img, 0, 0);
 	}
 	return (1);

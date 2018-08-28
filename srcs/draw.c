@@ -7,7 +7,7 @@ void	color_to_array(uint pixel, int array[3])
 	array[2] = (pixel & 0xff0000) >> 16;
 }
 
-void	darken(t_data *data, double ratio)
+void	darken(t_data *data, double ratio, t_vec3 from, t_vec3 to)
 {
 	int					x;
 	int					y;
@@ -15,11 +15,11 @@ void	darken(t_data *data, double ratio)
 	unsigned int		image_color;
 	int					tmp[3];
 
-	x = 0;
-	while (x < data->w)
+	x = from[0];
+	while (x < to[0])
 	{
-		y = 0;
-		while (y < data->h)
+		y = from[1];
+		while (y < to[1])
 		{
 			image_color = data->addr[y * data->size_line + x * 4] & 0xff;
 			image_color	= image_color | ((data->addr[y * data->size_line + x * 4 + 1] << 8) & 0x00ff00 );

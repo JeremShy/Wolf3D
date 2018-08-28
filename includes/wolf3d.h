@@ -116,6 +116,8 @@ void get_first_x(t_data *data, t_vec3 ray_pos, t_vec3 ray_dir, t_hit_info *first
 void get_first_y(t_data *data, t_vec3 ray_pos, t_vec3 ray_dir, t_hit_info *first_y);
 
 void	draw_col(t_data *data, t_hit_info *hit, int x);
-void	darken(t_data *data, double ratio);
+void	darken(t_data *data, double ratio, t_vec3 from, t_vec3 to);
+
+void	draw_minimap(t_data *data);
 
 #endif
