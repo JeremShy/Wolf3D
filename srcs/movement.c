@@ -43,20 +43,31 @@ int slide(t_data *data, t_vec3 movement)
 	return (1);
 }
 
-// The player has to move depending of his direction
 /*
-	if direction is {-1, 0} and the player is going front
-	 The player has to move of {-MOVEMENT_SPEED, 0}
-
-	if (direction is {-1, 0}) and the player is going going_left
-		the player has to move of {0, -MOVEMENT_SPEED}
+	Returns 1 if the player can move (no collsion), 0 else.
 */
+int		check_collision(t_data *data, t_vec3 movement)
+{
+	t_map_square		next_tile;
+	t_vec3				next_pos;
+	t_map_square		next_tile_x;
+	t_map_square		next_tile_y;
+
+	ft_vec3_add(next_pos, data->cam_pos, movement);
+	if (next_pos[0] != data->cam_pos[0] && next_pos[1] != data->cam_pos[1])
+	{
+		next_tile_x = data->map[(int)next_pos[0]][(int)data->cam_pos[1]];
+		next_tile_y = data->map[(int)data->cam_pos[0]][(int)next_pos[1]];
+		if (next_tile_x.num != 0 || next_tile_y.num != 0)
+			return (0);
+	}
+	next_tile = data->map[(int)next_pos[0]][(int)next_pos[1]];
+	return (next_tile.num == 0);
+}
 
 void	refresh_player(t_data *data)
 {
 	t_vec3				movement;
-	t_vec3				next_pos;
-	t_map_square		next_tile;
 
 	ft_vec3_init(movement, (double[3]){0, 0, 0});
 	if (data->going_front)
@@ -79,16 +90,13 @@ void	refresh_player(t_data *data)
 		movement[0] =  MOVEMENT_SPEED * data->cam_dir[1];
 		movement[1] =  -1 * MOVEMENT_SPEED * data->cam_dir[0];
 	}
-	ft_vec3_add(next_pos, data->cam_pos, movement);
-	next_tile = data->map[(int)next_pos[0]][(int)next_pos[1]];
-
-	if (next_tile.num != 0) // Collision
+	if (!check_collision(data, movement)) // Collision
 	{
 		if (!slide(data, movement))
 			return ;
 	}
 	else
-		ft_vec3_copy(data->cam_pos, next_pos);
+		ft_vec3_add(data->cam_pos, data->cam_pos, movement);
 	rotate(data);
 	// ft_vec3_print(data->cam_pos);
 }
