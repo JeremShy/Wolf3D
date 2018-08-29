@@ -94,7 +94,7 @@ int		init_the_mlx(t_data *data);
 void	free_mlx_and_exit(t_data *data);
 
 int		handle_error_void(void *variable, void *error_value, char *msg);
-void	free_dtab(int8_t **dtab, int size);
+void	free_dtab(t_map_square **dtab, int size);
 
 int		get_color_code(int r, int v, int b);
 void	put_pixel_to_image(t_data *data, int color, int x, int y);
@@ -120,4 +120,5 @@ void	darken(t_data *data, double ratio, t_vec3 from, t_vec3 to);
 
 void	draw_minimap(t_data *data);
 
+void	maths_to_screen(t_data *data, t_vec3 maths_pos, t_vec3 screen_pos);
 #endif

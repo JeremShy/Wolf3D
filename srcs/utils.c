@@ -10,15 +10,15 @@ int		handle_error_void(void *variable, void *error_value, char *msg)
 	return (0);
 }
 
-void	free_dtab(int8_t **dtab, int size)
+void	free_dtab(t_map_square **map, int size)
 {
 	int	i;
 
 	i = 0;
 	while (i < size)
 	{
-		free(dtab[i]);
+		free(map[i]);
 		i++;
 	}
-	free(dtab);
+	free(map);
 }

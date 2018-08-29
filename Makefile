@@ -11,7 +11,8 @@ SRC_NAME = main.c \
 			get_first_x.c \
 			get_first_y.c \
 			draw.c \
-			minimap.c
+			minimap.c \
+			reperes.c
 
 OBJ_PATH = ./obj/
 
@@ -22,7 +23,7 @@ SRC_PATH = ./srcs/
 NAME = wolf3d
 
 CC = gcc
-CFLAGS =  -Wextra -Wall -g
+CFLAGS =  -Wextra -Wall -g -fsanitize=address
 LFLAGS = -lft -framework OpenGL -framework AppKit -lm -lmlx -lftprintf -lftmatrices
 LIB_DIR = ./lib/
 

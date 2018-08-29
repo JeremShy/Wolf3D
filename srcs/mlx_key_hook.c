@@ -8,7 +8,7 @@ int	key_press_hook(int keycode, void *data_void)
 	ft_printf("Pressed key : %d\n", keycode);
 	if (keycode == 53)
 	{
-		// free_dtab(data->map, data->size_y);
+		free_dtab(data->map, data->size_y);
 		free_mlx_and_exit(data);
 	}
 	if (!data->paused || keycode == 35)

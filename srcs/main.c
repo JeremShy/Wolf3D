@@ -47,7 +47,6 @@ int main(int ac, char **av)
 	mlx_hook(data.win, 17, (1L << 17), red_cross_hook, &data);
 	mlx_hook(data.win, 3, (1L << 1), key_release_hook, &data);
 	mlx_hook(data.win, 2, (1L << 0), key_press_hook, &data);
-
 	mlx_loop_hook(data.mlx, &loop_hook, &data);
 	mlx_loop(data.mlx);
 	return (0);

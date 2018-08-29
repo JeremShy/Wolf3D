@@ -89,6 +89,10 @@ int		get_color(t_data *data, t_hit_info *hit, int y, int real_start, int real_en
 
 	place_x = (int)(place * (double)data->textures_size[texture_nbr][0]);
 	place_y = (int)(((double)(y - real_start) / (double)(real_end - real_start)) * (double)data->textures_size[texture_nbr][1]);
+	if (place_x >= data->textures_size[texture_nbr][0])
+			place_x--;
+	if (place_y >= data->textures_size[texture_nbr][1])
+			place_y--;
 
 	ret =  data->textures_addr[texture_nbr][place_y * data->textures_line_size[texture_nbr] + place_x * 4];
 	ret = ret + (data->textures_addr[texture_nbr][place_y * data->textures_line_size[texture_nbr] + place_x * 4 + 1] << 8);
