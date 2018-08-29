@@ -119,6 +119,4 @@ void	draw_col(t_data *data, t_hit_info *hit, int x);
 void	darken(t_data *data, double ratio, t_vec3 from, t_vec3 to);
 
 void	draw_minimap(t_data *data);
-
-void	maths_to_screen(t_data *data, t_vec3 maths_pos, t_vec3 screen_pos);
 #endif

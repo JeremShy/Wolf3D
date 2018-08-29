@@ -12,7 +12,6 @@ SRC_NAME = main.c \
 			get_first_y.c \
 			draw.c \
 			minimap.c \
-			reperes.c
 
 OBJ_PATH = ./obj/
 
