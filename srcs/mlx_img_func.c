@@ -17,40 +17,46 @@ int		get_color_code(int r, int v, int b)
 	return ((b << 0) + (v << 8) + (r << 16));
 }
 
-void	put_pixel_to_image(t_data *data, int color, int x, int y)
+void	put_pixel_to_image(t_img *img, int color, int x, int y)
 {
-	size_t		value;
-
-	value = mlx_get_color_value(data->mlx, color);
-	(data->addr)[y * data->size_line + x * 4 + 0] = (value & 0x0000ff) >> 0;
-	(data->addr)[y * data->size_line + x * 4 + 1] = (value & 0x00ff00) >> 8;
-	(data->addr)[y * data->size_line + x * 4 + 2] = (value & 0xff0000) >> 16;
+	(img->addr)[y * img->size_line + x * 4 + 0] = (color & 0x0000ff) >> 0;
+	(img->addr)[y * img->size_line + x * 4 + 1] = (color & 0x00ff00) >> 8;
+	(img->addr)[y * img->size_line + x * 4 + 2] = (color & 0xff0000) >> 16;
 }
 
-void	clear_image(t_data *data)
+void	put_pixel_to_image_transparency(t_img *img, int64_t color, int x, int y)
+{
+	(img->addr)[y * img->size_line + x * 4 + 0] = (color & 0x000000ff) >> 0;
+	(img->addr)[y * img->size_line + x * 4 + 1] = (color & 0x0000ff00) >> 8;
+	(img->addr)[y * img->size_line + x * 4 + 2] = (color & 0x00ff0000) >> 16;
+	(img->addr)[y * img->size_line + x * 4 + 3] = (color & 0xff000000) >> 24;
+}
+
+
+void	clear_image(t_img *img, size_t h)
 {
 	size_t	i;
 
 	i = 0;
-	while (i < (size_t)(data->h * data->size_line))
+	while (i < (size_t)(h * img->size_line))
 	{
-		(data->addr)[i] = 0;
+		(img->addr)[i] = 0;
 		i++;
 	}
 }
 
-void	fill_image(t_data *data, int color)
+void	fill_image(t_img *img, size_t w, size_t h, int color)
 {
-	int	x;
-	int	y;
+	size_t	x;
+	size_t	y;
 
 	x = 0;
-	while (x < data->w)
+	while (x < w)
 	{
 		y = 0;
-		while (y < data->h)
+		while (y < h)
 		{
-			put_pixel_to_image(data, color, x, y);
+			put_pixel_to_image(img, color, x, y);
 			y++;
 		}
 		x++;

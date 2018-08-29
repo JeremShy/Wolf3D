@@ -29,24 +29,24 @@ typedef struct s_map_square
 	int			num;
 }				t_map_square;
 
-typedef struct	s_data {
-	void		*mlx;
-	void		*win;
+typedef struct	s_img{
 	void		*img;
 	char		*addr;
-
-	void		*textures[TEXTURE_NBR];
-	int		textures_size[TEXTURE_NBR][2];
-	char		*textures_addr[TEXTURE_NBR];
-
-	int			textures_bpp[TEXTURE_NBR];
-	int			textures_line_size[TEXTURE_NBR];
-	int			textures_endian[TEXTURE_NBR];
-	const char	*av;
-
 	int			size_line;
 	int			endian;
 	int			bpp;
+}								t_img;
+
+typedef struct	s_data {
+	void		*mlx;
+	void		*win;
+	t_img		img;
+	
+	t_img		textures[TEXTURE_NBR];
+
+	int		textures_size[TEXTURE_NBR][2];
+
+	const char	*av;
 
 	t_map_square	**map;
 	int			size_x;
@@ -71,14 +71,8 @@ typedef struct	s_data {
 
 	int8_t		must_refresh;
 
-	t_vec3		actual_ray_dir;
-	t_vec3		actual_ray_pos;
-	t_vec3		actual_delta_dist;
-	t_vec3		actual_step;
-	t_vec3		actual_side_dist;
-
-
-
+	t_img		minimap;
+	void		*minimap_save;
 }				t_data;
 
 typedef struct	s_hit_info {
@@ -97,9 +91,10 @@ int		handle_error_void(void *variable, void *error_value, char *msg);
 void	free_dtab(t_map_square **dtab, int size);
 
 int		get_color_code(int r, int v, int b);
-void	put_pixel_to_image(t_data *data, int color, int x, int y);
-void	clear_image(t_data *data);
-void	fill_image(t_data *data, int color);
+void	put_pixel_to_image(t_img *img, int color, int x, int y);
+void	put_pixel_to_image_transparency(t_img *img, int64_t color, int x, int y);
+void	clear_image(t_img *img, size_t h);
+void	fill_image(t_img *img, size_t w, size_t h, int color);
 
 int		loop_hook(void *data_void);
 int		key_release_hook(int keycode, void *data_void);

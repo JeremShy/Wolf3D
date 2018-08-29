@@ -21,9 +21,9 @@ void	darken(t_data *data, double ratio, t_vec3 from, t_vec3 to)
 		y = from[1];
 		while (y < to[1])
 		{
-			image_color = data->addr[y * data->size_line + x * 4] & 0xff;
-			image_color	= image_color | ((data->addr[y * data->size_line + x * 4 + 1] << 8) & 0x00ff00 );
-			image_color = image_color | ((data->addr[y * data->size_line + x * 4 + 2] << 16) & 0xff0000 );
+			image_color = data->img.addr[y * data->img.size_line + x * 4] & 0xff;
+			image_color	= image_color | ((data->img.addr[y * data->img.size_line + x * 4 + 1] << 8) & 0x00ff00 );
+			image_color = image_color | ((data->img.addr[y * data->img.size_line + x * 4 + 2] << 16) & 0xff0000 );
 
 			color_to_array(image_color, tmp);
 			tmp[0] = (int)(tmp[0] - (255 * ratio) < 0. ? 0. : tmp[0] - (255. * ratio));
@@ -31,7 +31,7 @@ void	darken(t_data *data, double ratio, t_vec3 from, t_vec3 to)
 			tmp[2] = (int)(tmp[2] - (255 * ratio) < 0. ? 0. : tmp[2] - (255. * ratio));
 			color = (tmp[0] & 0x0000ff) | ((tmp[1] << 8) & 0x00ff00) | ((tmp[2] << 16) & 0xff0000);
 		
-			put_pixel_to_image(data, color, x, y);
+			put_pixel_to_image(&data->img, color, x, y);
 			y++;
 		}
 		x++;
@@ -94,9 +94,9 @@ int		get_color(t_data *data, t_hit_info *hit, int y, int real_start, int real_en
 	if (place_y >= data->textures_size[texture_nbr][1])
 			place_y--;
 
-	ret =  data->textures_addr[texture_nbr][place_y * data->textures_line_size[texture_nbr] + place_x * 4];
-	ret = ret + (data->textures_addr[texture_nbr][place_y * data->textures_line_size[texture_nbr] + place_x * 4 + 1] << 8);
-	ret = ret + (data->textures_addr[texture_nbr][place_y * data->textures_line_size[texture_nbr] + place_x * 4 + 2] << 16);
+	ret =  data->textures[texture_nbr].addr[place_y * data->textures[texture_nbr].size_line + place_x * 4];
+	ret = ret + (data->textures[texture_nbr].addr[place_y * data->textures[texture_nbr].size_line + place_x * 4 + 1] << 8);
+	ret = ret + (data->textures[texture_nbr].addr[place_y * data->textures[texture_nbr].size_line + place_x * 4 + 2] << 16); 
 	return ret;
 }
 
@@ -122,14 +122,12 @@ void	draw_col(t_data *data, t_hit_info *hit, int x)
 	y = 0;
 	while (y < data->h)
 	{
-		if (y < start) // Partie haute
-			put_pixel_to_image(data, 0x0000AA, x, y);
+		if (y < start)
+			put_pixel_to_image(&data->img, 0x0000AA, x, y);
 		else if (y >= start && y <= end) // Partie mediane
-		{
-			put_pixel_to_image(data, get_color(data, hit, y, real_start, real_end), x, y);
-		}
-		else // Partie basse
-			put_pixel_to_image(data, 0xAAAAAA, x, y);
+			put_pixel_to_image(&data->img, get_color(data, hit, y, real_start, real_end), x, y);
+		else
+			put_pixel_to_image(&data->img, 0xAAAAAA, x, y);
 		y++;
 	}
 }

@@ -2,8 +2,8 @@
 
 void load_texture(t_data *data, int nbr, char *file)
 {
-		data->textures[nbr] = mlx_xpm_file_to_image(data->mlx, file, &data->textures_size[nbr][0], &data->textures_size[nbr][1]);
-		data->textures_addr[nbr] = mlx_get_data_addr(data->textures[nbr], &(data->textures_bpp[nbr]), &(data->textures_line_size[nbr]), &(data->textures_endian[nbr]));
+		data->textures[nbr].img = mlx_xpm_file_to_image(data->mlx, file, &data->textures_size[nbr][0], &data->textures_size[nbr][1]);
+		data->textures[nbr].addr = mlx_get_data_addr(data->textures[nbr].img, &(data->textures[nbr].bpp), &(data->textures[nbr].size_line), &(data->textures[nbr].endian));
 }
 
 
@@ -28,8 +28,8 @@ int main(int ac, char **av)
 	data.h = 512;
 	if (!init_the_mlx(&data))
 		return (0);
-	clear_image(&data);
-	mlx_put_image_to_window(data.mlx, data.win, data.img, 0, 0);
+	clear_image(data.img.img, data.h);
+	mlx_put_image_to_window(data.mlx, data.win, data.img.img, 0, 0);
 
 	load_texture(&data, WOOD_TEXTURE, "textures/wood.xpm");
 	load_texture(&data, STONE_TEXTURE, "textures/stone.xpm");

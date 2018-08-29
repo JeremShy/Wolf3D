@@ -9,9 +9,7 @@ static void	get_ray(t_data *data, t_vec3 ray_pos, t_vec3 ray_dir, int x)
 	ft_vec3_init(ray_dir,
 	(double[]){data->cam_dir[0] + data->cam_plane[0] * col_pos,
 			data->cam_dir[1] + data->cam_plane[1] * col_pos, 0});
-	// printf("Direction :\n");
 	ft_vec3_normalize(ray_dir);
-	// ft_vec3_print(data->cam_dir);
 }
 
 static void	get_hit(t_data *data, t_vec3 ray_pos, t_vec3 ray_dir, t_hit_info *ret)
@@ -87,15 +85,15 @@ int	loop_hook(void *data_void)
 			ft_vec3_init(darken_from, (double[]){0, 0, 0});
 			ft_vec3_init(darken_to, (double[]){data->w, data->h, 0});
 			darken(data, .2, darken_from, darken_to);
-			mlx_put_image_to_window(data->mlx, data->win, data->img, 0, 0);
+			mlx_put_image_to_window(data->mlx, data->win, data->img.img, 0, 0);
 			mlx_string_put(data->mlx, data->win, data->w / 2, data->h / 4, 0xff0000, "PAUSED");
 			return (1);
 		}
-		clear_image(data);
+		clear_image(&data->img, data->h);
 		refresh_player(data);
 		render(data);
+		mlx_put_image_to_window(data->mlx, data->win, data->img.img, 0, 0);
 		draw_minimap(data);
-		mlx_put_image_to_window(data->mlx, data->win, data->img, 0, 0);
 	}
 	return (1);
 }

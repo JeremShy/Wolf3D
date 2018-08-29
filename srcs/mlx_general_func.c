@@ -21,14 +21,14 @@ int		init_the_mlx(t_data *data)
 		"wolf3d - Rainbow Dash is best pony !");
 	if (handle_error_void(data->win, NULL, "Error with mlx_new_window"))
 		return (0);
-	data->img = mlx_new_image(data->mlx, data->w, data->h);
-	if (handle_error_void(data->img, NULL, "Error with mlx_new_image"))
+	data->img.img = mlx_new_image(data->mlx, data->w, data->h);
+	if (handle_error_void(data->img.img, NULL, "Error with mlx_new_image"))
 		return (0);
-	data->addr = mlx_get_data_addr(data->img, &(data->bpp), &(data->size_line),
-		&(data->endian));
-	if (handle_error_void(data->addr, NULL, "Error with mlx_get_data_addr"))
+	data->img.addr = mlx_get_data_addr(data->img.img, &(data->img.bpp), &(data->img.size_line),
+		&(data->img.endian));
+	if (handle_error_void(data->img.addr, NULL, "Error with mlx_get_data_addr"))
 		return (0);
-	if (data->bpp != 32 || data->endian != 0)
+	if (data->img.bpp != 32 || data->img.endian != 0)
 	{
 		ft_printf(
 			"Please use a school mac with 32 bpp and little endian ! :D <3\n");
@@ -40,6 +40,6 @@ int		init_the_mlx(t_data *data)
 void	free_mlx_and_exit(t_data *data)
 {
 	mlx_destroy_window(data->mlx, data->win);
-	mlx_destroy_image(data->mlx, data->img);
+	mlx_destroy_image(data->mlx, data->img.img);
 	exit(EXIT_SUCCESS);
 }
