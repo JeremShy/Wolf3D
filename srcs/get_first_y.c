@@ -16,13 +16,8 @@ void get_first_y(t_data *data, t_vec3 ray_pos, t_vec3 ray_dir, t_hit_info *first
 	first_y->error = 1;
 
 	if (ray_dir[0] == 0)
-	{
-		// printf("Y error 1\n");
 		return ;
-	}
 
-	// printf("y ray_pos : %f - %f\n", ray_pos[0], ray_pos[1]);
-	// printf("y ray_dir : %f - %f\n", ray_dir[0], ray_dir[1]);
 
 	xb = ray_dir[0] > 0 ? (int)(ray_pos[0]) + 1 : (int)ray_pos[0];
 
@@ -44,12 +39,8 @@ void get_first_y(t_data *data, t_vec3 ray_pos, t_vec3 ray_dir, t_hit_info *first
 	ft_vec3_copy(actual_pos, first_inter);
 	while (1)
 	{
-		// printf("Testing intersection : (%f,%f)\n", actual_pos[0], actual_pos[1]);
 		if (actual_pos[0] < 0. || actual_pos[0] >= (double)data->size_y || actual_pos[1] < 0. || actual_pos[1] >= (double)data->size_x)
-		{
-			// printf("Y error 2\n");;
 			return ;
-		}
 		if (   (actual_pos[0] - 1 >= 0 && data->map[(int)actual_pos[0] - 1 ][(int)actual_pos[1]].num != 0)
 				|| data->map[(int)actual_pos[0]			][(int)actual_pos[1]].num != 0)
 		{

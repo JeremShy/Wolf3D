@@ -105,8 +105,6 @@ int		red_cross_hook(void *data);
 
 int8_t	parse(t_data *data, const char *file);
 
-void	print_map(t_data *data);
-
 void	refresh_player(t_data *data);
 
 void get_first_x(t_data *data, t_vec3 ray_pos, t_vec3 ray_dir, t_hit_info *first_x);
