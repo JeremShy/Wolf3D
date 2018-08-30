@@ -1,6 +1,6 @@
 #include <wolf3d.h>
 
-static void	get_ray(t_data *data, t_vec3 ray_pos, t_vec3 ray_dir, int x)
+void	get_ray(t_data *data, t_vec3 ray_pos, t_vec3 ray_dir, int x)
 {
 	double	col_pos;
 
@@ -12,7 +12,7 @@ static void	get_ray(t_data *data, t_vec3 ray_pos, t_vec3 ray_dir, int x)
 	ft_vec3_normalize(ray_dir);
 }
 
-static void	get_hit(t_data *data, t_vec3 ray_pos, t_vec3 ray_dir, t_hit_info *ret)
+void	get_hit(t_data *data, t_vec3 ray_pos, t_vec3 ray_dir, t_hit_info *ret)
 {
 	t_hit_info	first_x;
 	t_hit_info	first_y;
@@ -49,24 +49,6 @@ static void	get_hit(t_data *data, t_vec3 ray_pos, t_vec3 ray_dir, t_hit_info *re
 	ft_vec3_copy(look_dir, data->cam_dir);
 	ft_vec3_normalize(look_dir);
 	ret->corrected_dist = ft_vec3_dot(ab, look_dir);
-}
-
-static void	render(t_data *data)
-{
-	int			x;
-	t_vec3		ray_pos;
-	t_vec3		ray_dir;
-	t_hit_info	hit;
-
-	x = 0;
-	while (x < data->w)
-	{
-		// printf("x = %d\n", x);
-		get_ray(data, ray_pos, ray_dir, x);
-		get_hit(data, ray_pos, ray_dir, &hit);
-		draw_col(data, &hit, x);
-		x++;
-	}
 }
 
 int	loop_hook(void *data_void)

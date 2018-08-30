@@ -6,6 +6,8 @@
 # include <ft_printf.h>
 # include <libftmatrices.h>
 
+# include <pthread.h>
+
 # define WIN_SIZE 512
 # define MOVEMENT_SPEED .1f
 # define ROTATE_SPEED .05f
@@ -114,4 +116,8 @@ void	draw_col(t_data *data, t_hit_info *hit, int x);
 void	darken(t_data *data, double ratio, t_vec3 from, t_vec3 to);
 
 void	draw_minimap(t_data *data);
+
+void	get_ray(t_data *data, t_vec3 ray_pos, t_vec3 ray_dir, int x);
+void	get_hit(t_data *data, t_vec3 ray_pos, t_vec3 ray_dir, t_hit_info *ret);
+void	render(t_data *data);
 #endif
