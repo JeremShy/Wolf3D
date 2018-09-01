@@ -29,6 +29,32 @@ void	draw_map_square(t_data *data, t_vec3 minimap_start, t_vec3 minimap_end, int
 	}
 }
 
+void	draw_player_cross(t_data *data, t_vec3 minimap_start, t_vec3 minimap_end)
+{
+	t_vec3	player_pos;
+
+	ft_vec3_init(player_pos, (double[]){
+		data->cam_pos[0] * data->w / data->size_y,
+		data->cam_pos[1] * data->h / data->size_x,
+	});
+	put_pixel_to_image_transparency(&data->minimap, 0x00FF0000,
+		player_pos[0] * (minimap_end[0] - minimap_start[0]) / data->w,
+		player_pos[1] * (minimap_end[1] - minimap_start[1]) / data->h);
+	put_pixel_to_image_transparency(&data->minimap, 0x00FF0000,
+		player_pos[0] * (minimap_end[0] - minimap_start[0]) / data->w - 1,
+		player_pos[1] * (minimap_end[1] - minimap_start[1]) / data->h);
+	put_pixel_to_image_transparency(&data->minimap, 0x00FF0000,
+		player_pos[0] * (minimap_end[0] - minimap_start[0]) / data->w + 1,
+		player_pos[1] * (minimap_end[1] - minimap_start[1]) / data->h);
+	put_pixel_to_image_transparency(&data->minimap, 0x00FF0000,
+		player_pos[0] * (minimap_end[0] - minimap_start[0]) / data->w,
+		player_pos[1] * (minimap_end[1] - minimap_start[1]) / data->h - 1);
+	put_pixel_to_image_transparency(&data->minimap, 0x00FF0000,
+		player_pos[0] * (minimap_end[0] - minimap_start[0]) / data->w,
+		player_pos[1] * (minimap_end[1] - minimap_start[1]) / data->h + 1);
+
+}
+
 void	draw_minimap(t_data *data)
 {
 	static int loaded = 0;
@@ -36,7 +62,6 @@ void	draw_minimap(t_data *data)
 	static t_vec3	minimap_end;
 	int		row;
 	int		col;
-	t_vec3 player_pos;
 
 	if (loaded == 0)
 	{
@@ -61,12 +86,6 @@ void	draw_minimap(t_data *data)
 		ft_memcpy(data->minimap_save, data->minimap.addr, data->minimap.size_line * (data->w / 4.));
 	}
 	ft_memcpy(data->minimap.addr, data->minimap_save, data->minimap.size_line * (data->w / 4.));
-	ft_vec3_init(player_pos, (double[]){
-		data->cam_pos[0] * data->w / data->size_y,
-		data->cam_pos[1] * data->h / data->size_x,
-	});
-	put_pixel_to_image_transparency(&data->minimap, 0x00FF0000,
-		player_pos[0] * (minimap_end[0] - minimap_start[0]) / data->w,
-		player_pos[1] * (minimap_end[1] - minimap_start[1]) / data->h);
+	draw_player_cross(data, minimap_start, minimap_end);
 	mlx_put_image_to_window(data->mlx, data->win, data->minimap.img, minimap_start[0], minimap_start[1]);
 }
