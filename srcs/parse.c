@@ -84,7 +84,10 @@ static int8_t	parse_line(t_data *data, int line_number, char *str)
 		if (i == data->size_x)
 			return (0);
 		else if (ft_isdigit(str[i]))
+		{
 			data->map[line_number][i].num = str[i] - '0';
+			data->map[line_number][i].does_collide = (str[i] - '0' == 5 || str[i] - '0' == 0 ? 0 : 1);
+		}
 		else
 			return (0);
 		i++;

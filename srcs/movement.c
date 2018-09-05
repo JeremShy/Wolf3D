@@ -34,9 +34,9 @@ int slide(t_data *data, t_vec3 movement)
 	ft_vec3_init(next_y, (double[]){data->cam_pos[0], data->cam_pos[1] + movement[1], 0});
 	tile_x = data->map[(int)next_x[0]][(int)next_x[1]];
 	tile_y = data->map[(int)next_y[0]][(int)next_y[1]];
-	if (tile_x.num == 0 && tile_y.num != 0)
+	if (tile_x.does_collide == 0 && tile_y.does_collide != 0)
 		ft_vec3_copy(data->cam_pos, next_x);
-	else if (tile_y.num == 0 && tile_x.num != 0)
+	else if (tile_y.does_collide == 0 && tile_x.does_collide != 0)
 		ft_vec3_copy(data->cam_pos, next_y);
 	else
 		return (0);
@@ -58,11 +58,11 @@ int		check_collision(t_data *data, t_vec3 movement)
 	{
 		next_tile_x = data->map[(int)next_pos[0]][(int)data->cam_pos[1]];
 		next_tile_y = data->map[(int)data->cam_pos[0]][(int)next_pos[1]];
-		if (next_tile_x.num != 0 || next_tile_y.num != 0)
+		if (next_tile_x.does_collide == 1 || next_tile_y.does_collide == 1)
 			return (0);
 	}
 	next_tile = data->map[(int)next_pos[0]][(int)next_pos[1]];
-	return (next_tile.num == 0);
+	return (next_tile.does_collide == 0);
 }
 
 void	refresh_player(t_data *data)

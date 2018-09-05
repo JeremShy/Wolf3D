@@ -46,6 +46,8 @@ int		get_texture_nbr(t_data *data, t_hit_info *hit)
 
 	if (nbr == 1)
 		return (WOOD_TEXTURE);
+	else if (nbr == 5)
+		return PASSAGE_SECRET_TEXTURE;
 	else if (nbr != 4)
 		return (nbr - 2);
 	else

@@ -12,12 +12,13 @@
 # define MOVEMENT_SPEED .1f
 # define ROTATE_SPEED .05f
 
-# define TEXTURE_NBR 4
+# define TEXTURE_NBR 5
 
 # define WOOD_TEXTURE 0
 # define STONE_TEXTURE 1
 # define RDASH_TEXTURE 2
 # define TWILIGHT_TEXTURE 3
+# define PASSAGE_SECRET_TEXTURE 4
 
 typedef enum e_orientation {
 	NORTH,
@@ -29,6 +30,7 @@ typedef enum e_orientation {
 typedef struct s_map_square
 {
 	int			num;
+	int8_t	does_collide;
 }				t_map_square;
 
 typedef struct	s_img{
