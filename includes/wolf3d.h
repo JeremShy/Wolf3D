@@ -41,6 +41,13 @@ typedef struct	s_img{
 	int			bpp;
 }								t_img;
 
+typedef struct	s_draw_info
+{
+	int	y;
+	int	real_start;
+	int	real_end;
+}								t_draw_info;
+
 typedef struct	s_data {
 	void		*mlx;
 	void		*win;
