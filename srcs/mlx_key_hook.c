@@ -6,7 +6,7 @@
 /*   By: jcamhi <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/06 18:52:05 by jcamhi            #+#    #+#             */
-/*   Updated: 2018/09/06 18:52:06 by jcamhi           ###   ########.fr       */
+/*   Updated: 2018/09/06 19:40:13 by jcamhi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ int			key_press_hook(int keycode, void *data_void)
 	t_data	*data;
 
 	data = (t_data*)data_void;
-	ft_printf("Pressed key : %d\n", keycode);
 	if (keycode == 53)
 	{
 		free_dtab(data->map, data->size_y);
@@ -69,7 +68,6 @@ int			key_release_hook(int keycode, void *data_void)
 	t_data	*data;
 
 	data = (t_data*)data_void;
-	ft_printf("released key : %d\n", keycode);
 	if (keycode == 13)
 		data->going_front = 0;
 	else if (keycode == 1)
