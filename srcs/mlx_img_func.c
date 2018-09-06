@@ -32,7 +32,6 @@ void	put_pixel_to_image_transparency(t_img *img, int64_t color, int x, int y)
 	(img->addr)[y * img->size_line + x * 4 + 3] = (color & 0xff000000) >> 24;
 }
 
-
 void	clear_image(t_img *img, size_t h)
 {
 	size_t	i;
