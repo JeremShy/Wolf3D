@@ -24,7 +24,8 @@ int		init_the_mlx(t_data *data)
 	data->img.img = mlx_new_image(data->mlx, data->w, data->h);
 	if (handle_error_void(data->img.img, NULL, "Error with mlx_new_image"))
 		return (0);
-	data->img.addr = mlx_get_data_addr(data->img.img, &(data->img.bpp), &(data->img.size_line),
+	data->img.addr = mlx_get_data_addr(data->img.img, &(data->img.bpp),
+		&(data->img.size_line),
 		&(data->img.endian));
 	if (handle_error_void(data->img.addr, NULL, "Error with mlx_get_data_addr"))
 		return (0);
