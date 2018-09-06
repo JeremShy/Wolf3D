@@ -1,37 +1,36 @@
 #include <wolf3d.h>
 
-void rotate(t_data *data)
+void		rotate(t_data *data)
 {
 	float speed;
 
 	if (data->rotating_left || data->rotating_right)
 	{
 		speed = (data->rotating_left ? 1 : -1) * ROTATE_SPEED;
-
 		ft_vec3_init(data->cam_dir, (double[]){
 			data->cam_dir[0] * cos(speed) - data->cam_dir[1] * sin(speed),
 			data->cam_dir[0] * sin(speed) + data->cam_dir[1] * cos(speed),
 			0
 		});
-
 		ft_vec3_init(data->cam_plane, (double[]){
 			data->cam_plane[0] * cos(speed) - data->cam_plane[1] * sin(speed),
 			data->cam_plane[0] * sin(speed) + data->cam_plane[1] * cos(speed),
 			0
 		});
-
 	}
 }
 
-int slide(t_data *data, t_vec3 movement)
+int			slide(t_data *data, t_vec3 movement)
 {
 	t_vec3					next_x;
 	t_vec3					next_y;
 	t_map_square			tile_x;
 	t_map_square			tile_y;
 
-	ft_vec3_init(next_x, (double[]){data->cam_pos[0] + movement[0], data->cam_pos[1], 0});
-	ft_vec3_init(next_y, (double[]){data->cam_pos[0], data->cam_pos[1] + movement[1], 0});
+	ft_vec3_init(next_x, (double[]){data->cam_pos[0] + movement[0],
+		data->cam_pos[1], 0});
+	ft_vec3_init(next_y, (double[]){data->cam_pos[0],
+		data->cam_pos[1] + movement[1], 0});
 	tile_x = data->map[(int)next_x[0]][(int)next_x[1]];
 	tile_y = data->map[(int)next_y[0]][(int)next_y[1]];
 	if (tile_x.does_collide == 0 && tile_y.does_collide != 0)
@@ -43,10 +42,7 @@ int slide(t_data *data, t_vec3 movement)
 	return (1);
 }
 
-/*
-	Returns 1 if the player can move (no collsion), 0 else.
-*/
-int		check_collision(t_data *data, t_vec3 movement)
+int			check_collision(t_data *data, t_vec3 movement)
 {
 	t_map_square		next_tile;
 	t_vec3				next_pos;
@@ -65,11 +61,8 @@ int		check_collision(t_data *data, t_vec3 movement)
 	return (next_tile.does_collide == 0);
 }
 
-void	refresh_player(t_data *data)
+static void	calculate_movement(t_data *data, t_vec3 movement)
 {
-	t_vec3				movement;
-
-	ft_vec3_init(movement, (double[3]){0, 0, 0});
 	if (data->going_front)
 	{
 		movement[0] = MOVEMENT_SPEED * data->cam_dir[0];
@@ -77,8 +70,8 @@ void	refresh_player(t_data *data)
 	}
 	else if (data->going_back)
 	{
-		movement[0] =  -1 * MOVEMENT_SPEED * data->cam_dir[0];
-		movement[1] =  -1 * MOVEMENT_SPEED * data->cam_dir[1];
+		movement[0] = -1 * MOVEMENT_SPEED * data->cam_dir[0];
+		movement[1] = -1 * MOVEMENT_SPEED * data->cam_dir[1];
 	}
 	if (data->going_left)
 	{
@@ -87,10 +80,18 @@ void	refresh_player(t_data *data)
 	}
 	else if (data->going_right)
 	{
-		movement[0] =  MOVEMENT_SPEED * data->cam_dir[1];
-		movement[1] =  -1 * MOVEMENT_SPEED * data->cam_dir[0];
+		movement[0] = MOVEMENT_SPEED * data->cam_dir[1];
+		movement[1] = -1 * MOVEMENT_SPEED * data->cam_dir[0];
 	}
-	if (!check_collision(data, movement)) // Collision
+}
+
+void		refresh_player(t_data *data)
+{
+	t_vec3				movement;
+
+	ft_vec3_init(movement, (double[3]){0, 0, 0});
+	calculate_movement(data, movement);
+	if (!check_collision(data, movement))
 	{
 		if (!slide(data, movement))
 			return ;
@@ -98,5 +99,4 @@ void	refresh_player(t_data *data)
 	else
 		ft_vec3_add(data->cam_pos, data->cam_pos, movement);
 	rotate(data);
-	// ft_vec3_print(data->cam_pos);
 }
