@@ -1,8 +1,8 @@
 #include <wolf3d.h>
 
-void * render_0(void *vdata)
+void	*render_0(void *vdata)
 {
-	t_data *data;
+	t_data		*data;
 	int			x;
 	t_vec3		ray_pos;
 	t_vec3		ray_dir;
@@ -20,9 +20,9 @@ void * render_0(void *vdata)
 	pthread_exit(NULL);
 }
 
-void * render_1(void *vdata)
+void	*render_1(void *vdata)
 {
-	t_data *data;
+	t_data		*data;
 	int			x;
 	t_vec3		ray_pos;
 	t_vec3		ray_dir;
@@ -40,9 +40,9 @@ void * render_1(void *vdata)
 	pthread_exit(NULL);
 }
 
-void * render_2(void *vdata)
+void	*render_2(void *vdata)
 {
-	t_data *data;
+	t_data		*data;
 	int			x;
 	t_vec3		ray_pos;
 	t_vec3		ray_dir;
@@ -60,9 +60,9 @@ void * render_2(void *vdata)
 	pthread_exit(NULL);
 }
 
-void * render_3(void *vdata)
+void	*render_3(void *vdata)
 {
-	t_data *data;
+	t_data		*data;
 	int			x;
 	t_vec3		ray_pos;
 	t_vec3		ray_dir;
@@ -80,7 +80,6 @@ void * render_3(void *vdata)
 	pthread_exit(NULL);
 }
 
-
 void	render(t_data *data)
 {
 	pthread_t threads[4];
@@ -89,7 +88,6 @@ void	render(t_data *data)
 	pthread_create(threads + 1, NULL, render_1, (void*)data);
 	pthread_create(threads + 2, NULL, render_2, (void*)data);
 	pthread_create(threads + 3, NULL, render_3, (void*)data);
-
 	pthread_join(threads[0], NULL);
 	pthread_join(threads[1], NULL);
 	pthread_join(threads[2], NULL);
