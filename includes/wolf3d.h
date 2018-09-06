@@ -121,6 +121,8 @@ void get_first_y(t_data *data, t_vec3 ray_pos, t_vec3 ray_dir, t_hit_info *first
 
 void	draw_col(t_data *data, t_hit_info *hit, int x);
 void	darken(t_data *data, double ratio, t_vec3 from, t_vec3 to);
+int		get_texture_nbr(t_data *data, t_hit_info *hit);
+
 
 void	draw_minimap(t_data *data);
 

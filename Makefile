@@ -10,6 +10,7 @@ SRC_NAME = main.c \
 			get_first_x.c \
 			get_first_y.c \
 			draw.c \
+			draw_2.c \
 			minimap.c \
 			render.c
 
