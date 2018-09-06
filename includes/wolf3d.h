@@ -113,6 +113,10 @@ int		key_press_hook(int keycode, void *data_void);
 int		red_cross_hook(void *data);
 
 int8_t	parse(t_data *data, const char *file);
+int8_t	validate_line(char *str, int size_x);
+int8_t	get_size_x(t_data *data, char *str);
+int8_t	return_close_free(char *str, int fd, int ret);
+int			get_size_y(const char *file);
 
 void	refresh_player(t_data *data);
 

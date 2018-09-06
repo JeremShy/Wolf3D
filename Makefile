@@ -7,6 +7,7 @@ SRC_NAME = main.c \
 			mlx_key_hook.c \
 			misc_hooks.c \
 			parse.c \
+			parse_2.c \
 			movement.c \
 			get_first_x.c \
 			get_first_y.c \
