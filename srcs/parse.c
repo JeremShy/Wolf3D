@@ -19,7 +19,7 @@ static int8_t	get_size_x(t_data *data, char *str)
 {
 	int	i;
 
-	if	(!validate_line(str, -1))
+	if (!validate_line(str, -1))
 		return (0);
 	i = 0;
 	while (str[i])
@@ -86,7 +86,8 @@ static int8_t	parse_line(t_data *data, int line_number, char *str)
 		else if (ft_isdigit(str[i]))
 		{
 			data->map[line_number][i].num = str[i] - '0';
-			data->map[line_number][i].does_collide = (str[i] - '0' == 5 || str[i] - '0' == 0 ? 0 : 1);
+			data->map[line_number][i].does_collide =
+				(str[i] - '0' == 5 || str[i] - '0' == 0 ? 0 : 1);
 		}
 		else
 			return (0);
@@ -97,31 +98,10 @@ static int8_t	parse_line(t_data *data, int line_number, char *str)
 	return (1);
 }
 
-int8_t			parse(t_data *data, const char *file)
+int8_t			parse_2(t_data *data, char *str, int fd)
 {
-	int		fd;
-	char	*str;
-	int		r;
-	int		i;
+	int	i;
 
-	if ((fd = open(file, O_RDONLY)) == -1)
-	{
-		ft_putstr_fd("Can't open file `", 2);
-		ft_putstr_fd((char*)file, 2);
-		ft_putstr_fd("'\n", 2);
-		return (0);
-	}
-	if ((r = get_size_y(file)) == 0)
-		return (0);
-	data->size_y = r;
-	r = get_next_line(fd, &str);
-	if (r == 0 || r == -1)
-		return return_close_free(NULL, fd, 0);
-	if (!get_size_x(data, str))
-	{
-		ft_printf("%s: invalid first line\n", data->av);
-		return return_close_free(str, fd, 0);
-	}
 	if (!allocate_map(data))
 	{
 		ft_printf("%s: couldn't allocate map\n", data->av);
@@ -140,4 +120,31 @@ int8_t			parse(t_data *data, const char *file)
 	}
 	close(fd);
 	return (1);
+}
+
+int8_t			parse(t_data *data, const char *file)
+{
+	int		fd;
+	char	*str;
+	int		r;
+
+	if ((fd = open(file, O_RDONLY)) == -1)
+	{
+		ft_putstr_fd("Can't open file `", 2);
+		ft_putstr_fd((char*)file, 2);
+		ft_putstr_fd("'\n", 2);
+		return (0);
+	}
+	if ((r = get_size_y(file)) == 0)
+		return (0);
+	data->size_y = r;
+	r = get_next_line(fd, &str);
+	if (r == 0 || r == -1)
+		return (return_close_free(NULL, fd, 0));
+	if (!get_size_x(data, str))
+	{
+		ft_printf("%s: invalid first line\n", data->av);
+		return (return_close_free(str, fd, 0));
+	}
+	return (parse_2(data, str, fd));
 }
