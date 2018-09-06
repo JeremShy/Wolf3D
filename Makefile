@@ -3,6 +3,7 @@ SRC_NAME = main.c \
 			utils.c \
 			mlx_img_func.c \
 			mlx_loop_hook.c \
+			mlx_loop_hook_2.c \
 			mlx_key_hook.c \
 			misc_hooks.c \
 			parse.c \
