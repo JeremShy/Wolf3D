@@ -1,6 +1,6 @@
 #include <wolf3d.h>
 
-void	get_ray(t_data *data, t_vec3 ray_pos, t_vec3 ray_dir, int x)
+void			get_ray(t_data *data, t_vec3 ray_pos, t_vec3 ray_dir, int x)
 {
 	double	col_pos;
 
@@ -20,7 +20,7 @@ static double	correct_distance(t_vec3 ray_pos, t_hit_info collision)
 		- ray_pos[1]) * (collision.collision_pos[1] - ray_pos[1])));
 }
 
-t_hit_info	*compute_ret(t_hit_info *first_x,
+t_hit_info		*compute_ret(t_hit_info *first_x,
 	t_hit_info *first_y, t_vec3 ray_pos)
 {
 	if (first_y->error != 1)
@@ -34,7 +34,8 @@ t_hit_info	*compute_ret(t_hit_info *first_x,
 			first_y->corrected_dist ? first_x : first_y);
 }
 
-void	get_hit(t_data *data, t_vec3 ray_pos, t_vec3 ray_dir, t_hit_info *ret)
+void			get_hit(t_data *data, t_vec3 ray_pos, t_vec3 ray_dir,
+		t_hit_info *ret)
 {
 	t_hit_info	first_x;
 	t_hit_info	first_y;
@@ -60,7 +61,7 @@ void	get_hit(t_data *data, t_vec3 ray_pos, t_vec3 ray_dir, t_hit_info *ret)
 	ret->corrected_dist = ft_vec3_dot(ab, look_dir);
 }
 
-static void	handle_pause(t_data *data)
+static void		handle_pause(t_data *data)
 {
 	t_vec3	darken_from;
 	t_vec3	darken_to;
@@ -73,7 +74,7 @@ static void	handle_pause(t_data *data)
 		data->h / 4, 0xff0000, "PAUSED");
 }
 
-int	loop_hook(void *data_void)
+int				loop_hook(void *data_void)
 {
 	t_data	*data;
 
